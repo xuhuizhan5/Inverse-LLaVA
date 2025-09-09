@@ -75,13 +75,10 @@ The following hyperparameters are specific to Inverse-LLaVA and control the fusi
 If you find Inverse-LLaVA useful for your research and applications, please cite using this BibTeX:
 
 ```
-@misc{zhan2025inversellava,
-      title={Inverse-LLaVA: Eliminating Alignment Pre-training Through Text-to-Vision Mapping}, 
-      author={Xuhui Zhan and Tyler Derr},
-      year={2025},
-      eprint={2508.12466},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2508.12466}, 
+@article{zhan2025inverse,
+  title={Inverse-LLaVA: Eliminating Alignment Pre-training Through Text-to-Vision Mapping},
+  author={Zhan, Xuhui and Derr, Tyler},
+  journal={arXiv preprint arXiv:2508.12466},
+  year={2025}
 }
 ```
