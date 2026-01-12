@@ -82,3 +82,7 @@ If you find Inverse-LLaVA useful for your research and applications, please cite
   year={2025}
 }
 ```
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=xuhuizhan5/Inverse-LLaVA&type=date&legend=top-left)](https://www.star-history.com/#xuhuizhan5/Inverse-LLaVA&type=date&legend=top-left)
