@@ -1,15 +1,15 @@
-# Inverse-LLaVA: Eliminating Alignment Pre-training Through Text-to-Vision Mapping
+# Inverse-LLaVA: Rethinking Multimodal Alignment via Text-to-Vision Mapping
 
 **Project Website:** [https://inverse-llava.github.io](https://inverse-llava.github.io)
 
 ### Authors
 
 * [Xuhui Zhan](https://xuhuizhan5.github.io) (Data Science Institute, Vanderbilt University)
-* [Tyler Derr](https://tylersnetwork.github.io) (Computer Science Department, Vanderbilt University)
+* [Tyler Derr](https://tylersnetwork.github.io) (Data Science Institute and Computer Science Department, Vanderbilt University)
 
 ### Abstract
 
-Traditional multimodal learning approaches require expensive alignment pre-training to bridge vision and language modalities, typically projecting visual features into discrete text token spaces. We challenge both fundamental assumptions underlying this paradigm by proposing **Inverse-LLaVA**, a novel approach that eliminates alignment pre-training entirely while inverting the conventional mapping direction. Rather than projecting visual features to text space, our method maps text embeddings into continuous visual representation space and performs fusion within transformer intermediate layers. Through selective additive components in attention mechanisms, we enable dynamic integration of visual and textual representations without requiring massive image-text alignment datasets. Comprehensive experiments across nine multimodal benchmarks demonstrate nuanced performance trade-offs: Inverse-LLaVA achieves notable improvements on reasoning-intensive and cognitive tasks (MM-VET: +0.2%, VizWiz: +1.8%, ScienceQA: +0.2%, cognitive reasoning: +27.2%), while showing expected decreases in perception tasks requiring memorized visual-text associations (celebrity recognition: -49.5%, OCR: -21.3%). These results provide the first empirical evidence that alignment pre-training is not necessary for effective multimodal learning, particularly for complex reasoning tasks. Our work establishes the feasibility of a new paradigm that reduces computational requirements by 45%, challenges conventional wisdom about modality fusion, and opens new research directions for efficient multimodal architectures that preserve modality-specific characteristics. Our project website with code and additional resources is available at [https://inverse-llava.github.io](https://inverse-llava.github.io).
+Traditional multimodal learning approaches rely on alignment pre-training to bridge vision and language modalities, typically by projecting visual features into discrete text token spaces using large-scale image-text data. We revisit this design choice and propose **Inverse-LLaVA**, a multimodal architecture that inverts the conventional mapping direction by projecting text embeddings into continuous visual representation space and performing fusion within intermediate transformer layers. This representation-first design enables effective multimodal reasoning without relying on an explicit alignment pretraining stage and significantly reduces dependence on large alignment datasets. Across nine multimodal benchmarks, Inverse-LLaVA demonstrates strong learning efficiency under reduced supervision, achieving substantial gains on reasoning-intensive tasks while exhibiting selective performance drops on perception tasks that depend on explicit visual-text grounding. Our analysis indicates that these trade-offs primarily reflect differences in supervision regime rather than architectural limitations. Together, these results show that alignment pretraining is not strictly required for effective multimodal reasoning and highlight the importance of preserving continuous modality representations, opening a new direction for multimodal architecture design that decouples representation structure from supervision regime for more flexible and efficient multimodal systems.
 
 ---
 
@@ -28,7 +28,7 @@ To reproduce the training for our models, please use the following scripts:
   bash llava/scripts/v1_5/fusion_finetune_lora_HD.sh
   ```
 
-For an apple-to-apple comparison with LLaVA, we follow the same dataset and hyperparameter settings as the visual instruction tuning stage for LLaVA training. The dataset preparation and structure are identical. You can find more details in the [original LLaVA repository](https://github.com/haotian-liu/LLaVA). Our approach is most aligned with their LoRA training methodology. This project was also trained on 8 A100 GPUs, identical to the setup used for LLaVA.
+For an apples-to-apples comparison with LLaVA-1.5, we use the same instruction-tuning dataset, backbone models, and optimization settings. The dataset preparation and structure are identical. You can find more details in the [original LLaVA repository](https://github.com/haotian-liu/LLaVA). Our approach is most closely aligned with its LoRA training methodology. The experiments were conducted on 8 NVIDIA A100 GPUs, consistent with the LLaVA-1.5 training setup.
 
 ## Evaluation
 
@@ -76,13 +76,9 @@ If you find Inverse-LLaVA useful for your research and applications, please cite
 
 ```
 @article{zhan2025inverse,
-  title={Inverse-LLaVA: Eliminating Alignment Pre-training Through Text-to-Vision Mapping},
+  title={Inverse-LLaVA: Rethinking Multimodal Alignment via Text-to-Vision Mapping},
   author={Zhan, Xuhui and Derr, Tyler},
   journal={arXiv preprint arXiv:2508.12466},
   year={2025}
 }
 ```
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=xuhuizhan5/Inverse-LLaVA&type=date&legend=top-left)](https://www.star-history.com/#xuhuizhan5/Inverse-LLaVA&type=date&legend=top-left)
