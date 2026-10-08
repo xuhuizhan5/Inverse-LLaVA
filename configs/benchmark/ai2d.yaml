@@ -1,0 +1,15 @@
+id: ai2d
+display_name: AI2D
+split: test
+protocol_revision: lmms-eval-e9ff3eccf35d1fbca061e50c6c393f96aee692b0
+task_type: multiple_choice
+annotations: {id: ai2d, kind: huggingface, location: lmms-lab-encoder/ai2d, revision: c83a9b9692933aff8349157c88a413df9d02c4e5, sha256: null, required: true}
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\n{choices}\nAnswer with the option's letter from the given choices directly."
+answer_extraction: lmms_eval_ai2d_filter
+scorer: official_ai2d_exact_match
+external_only: false
+generation: {max_new_tokens: 16, temperature: 0.0, top_p: 1.0, num_beams: 1}
+verification_status: golden_verified
+notes: Full pinned split decoded; all prompts and targets plus 21,616 response-filter and exact-match comparisons matched lmms-eval e9ff3ecc with zero mismatches.

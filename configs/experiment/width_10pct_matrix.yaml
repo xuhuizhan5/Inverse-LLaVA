@@ -1,0 +1,28 @@
+matrix_id: inverse-width-10pct-trajectories
+base_experiment: configs/experiment/canonical_5pct_calibration.yaml
+selection_metric: declared_domain_scores_no_posthoc_weighting
+seed: 42
+# Both conditions use a fresh 10% schedule. Extending a completed 5% cosine
+# run, or reusing the first 10% of full training, would change this comparison.
+variants:
+  - id_suffix: standard
+    factor: visual-feature-width
+    value: "1024"
+    description: Inverse-LLaVA with 1%, 2%, 5%, and 10% nominal full-dataset exposure checkpoints.
+    patches:
+      id: inverse-llava-width-10pct
+      tags: [width-study, ten-percent, matched-schedule]
+      overrides.data.sample_fraction: 0.1
+      training.save_every_steps: 520
+      training.checkpoint_milestones: [0.1, 0.2, 0.5, 1.0]
+  - id_suffix: hd
+    factor: visual-feature-width
+    value: "2048"
+    description: Inverse-LLaVA-HD under the same 520-update schedule and milestone policy.
+    patches:
+      id: inverse-llava-hd-width-10pct
+      tags: [width-study, ten-percent, matched-schedule]
+      model_ref: inverse_vicuna7b_hd
+      overrides.data.sample_fraction: 0.1
+      training.save_every_steps: 520
+      training.checkpoint_milestones: [0.1, 0.2, 0.5, 1.0]

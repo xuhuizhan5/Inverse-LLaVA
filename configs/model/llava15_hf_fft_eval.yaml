@@ -1,0 +1,47 @@
+id: llava15-hf-fft-protocol-reference
+architecture: llava_reference
+language:
+  checkpoint: llava-hf/llava-1.5-7b-hf
+  revision: b234b804b114d9e37bb655e11cbbb5f5e971b7a9
+  family: vicuna
+  hidden_size: 4096
+  num_layers: 32
+  image_token: "<image>"
+  max_length: 2048
+  trust_remote_code: false
+vision:
+  checkpoint: openai/clip-vit-large-patch14-336
+  revision: ce19dc912ca5cd21c8a653c79e251e808ccabcd1
+  feature_layers: [-2]
+  feature_select: patch
+  feature_dim: 1024
+  image_size: 336
+  aspect_ratio: pad
+  freeze: true
+fusion:
+  layers: []
+  targets: [q, k, v]
+  operator: disabled
+  mapper_rank: null
+  trainable: false
+  mapper_trainable: false
+  scale_mode: fixed
+  initial_scale: 0.0
+  mapper_init_std: null
+  output_init_std: 0.0001
+  initialization_id: disabled-not-applicable
+projector:
+  kind: mlp2x_gelu
+  input_dim: 1024
+  output_dim: 4096
+  trainable: false
+  initial_checkpoint_id: embedded-in-official-checkpoint
+adaptation:
+  method: frozen
+  trainable: false
+  rank: 0
+  alpha: 0
+  dropout: 0.0
+  target_suffixes: []
+  exclude_fusion_layers: false
+torch_dtype: bfloat16

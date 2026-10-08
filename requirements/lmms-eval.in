@@ -1,0 +1,2 @@
+# Resolve only in the isolated x86/CUDA golden-oracle environment.
+lmms-eval==0.7.1

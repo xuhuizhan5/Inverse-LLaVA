@@ -1,0 +1,15 @@
+id: cuda-4gpu
+accelerator: cuda
+mixed_precision: bf16
+num_processes: 4
+dataloader_workers: 8
+distributed_strategy: ddp
+attention_backend: sdpa
+allow_tf32: true
+deterministic_algorithms: false
+cudnn_benchmark: false
+run_root: /workspace/runs
+cache_root: /workspace/cache
+tracker: tensorboard
+hardware_telemetry_interval_seconds: 10
+keep_last_checkpoints: 2

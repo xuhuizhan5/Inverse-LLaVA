@@ -1,0 +1,15 @@
+id: cuda-1gpu-fp32-eager-diagnostic
+accelerator: cuda
+mixed_precision: "no"
+num_processes: 1
+dataloader_workers: 2
+distributed_strategy: none
+attention_backend: eager
+allow_tf32: false
+deterministic_algorithms: false
+cudnn_benchmark: false
+run_root: /workspace/runs
+cache_root: /workspace/cache
+tracker: local
+hardware_telemetry_interval_seconds: 10
+keep_last_checkpoints: 2

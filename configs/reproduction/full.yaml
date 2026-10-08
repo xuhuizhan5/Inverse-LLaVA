@@ -1,0 +1,27 @@
+id: inverse-llava-full-reproduction
+experiments:
+  - configs/experiment/canonical_7b.yaml
+  - configs/experiment/controlled_llava_lora.yaml
+local_benchmarks:
+  - configs/benchmark/scienceqa_img.yaml
+  - configs/benchmark/mmbench_en_llava.yaml
+  - configs/benchmark/mmbench_cn_llava.yaml
+  - configs/benchmark/mme_perception.yaml
+  - configs/benchmark/mme_cognition.yaml
+  - configs/benchmark/textvqa.yaml
+  - configs/benchmark/gqa.yaml
+  - configs/benchmark/vizwiz.yaml
+  - configs/benchmark/vqav2_val.yaml
+  - configs/benchmark/ai2d.yaml
+  - configs/benchmark/mmstar.yaml
+  - configs/benchmark/ocrbench.yaml
+judge_benchmarks:
+  - configs/benchmark/mmvet_gpt41_hosted.yaml
+external_benchmarks:
+  - configs/benchmark/vqav2_testdev.yaml
+optional_benchmarks:
+  - configs/benchmark/mathvista_testmini.yaml
+environment:
+  dependency_lock: uv.lock
+  base_image_lock: containers/base-image.digest
+  publication_image_lock: containers/publication-image.digest

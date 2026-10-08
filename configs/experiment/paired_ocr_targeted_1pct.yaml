@@ -1,0 +1,36 @@
+id: inverse-llava-vicuna-7b-ocr-targeted-continuation
+description: Continuation from the pinned source checkpoint on 5,580 OCR-VQA and TextVQA instruction rows.
+method_revision: manuscript-submission-equations-2-4
+model_ref: inverse_vicuna7b
+data_ref: llava_mix665k_ocr
+runtime_ref: cuda_1gpu
+evidence_class: controlled_architecture
+initial_checkpoint_id: sha256:2a168ed3a47fd54656b74ab99e29d403b8cdb9766562e905040a8833de0c3a4a
+training:
+  seed: 42
+  epochs: 1.0
+  per_device_batch_size: 32
+  gradient_accumulation_steps: 4
+  gradient_checkpointing: true
+  group_by_modality_length: true
+  max_grad_norm: 1.0
+  log_every_steps: 1
+  save_every_steps: 100
+  checkpoint_milestones: [0.5, 1.0]
+  optimizer:
+    name: adamw
+    learning_rate: 0.00002
+    weight_decay: 0.0
+    betas: [0.9, 0.999]
+    eps: 0.00000001
+    scheduler: cosine
+    warmup_ratio: 0.03
+generation:
+  max_new_tokens: 64
+  temperature: 0.0
+  top_p: 1.0
+  num_beams: 1
+tags: [ocr-targeted-supervision, continuation]
+overrides:
+  data:
+    max_samples: 5580

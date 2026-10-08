@@ -1,0 +1,15 @@
+id: mmbench-en
+display_name: MMBench EN
+split: dev-v1.0
+protocol_revision: llava-c121f043-mmbench-v10-circular-exact-v1
+task_type: multiple_choice
+annotations: {id: mmbench-dev-en-v10, kind: http, location: "http://opencompass.openxlab.space/utils/benchmarks/MMBench/MMBench_DEV_EN.tsv", revision: "VLMEvalKit@470e51787a351764057869304e425bc76170bdc6; md5=b6caf1133a01c6bb705cf753bb527ed8", sha256: 64baa14c5ec650302f428212a0b3efc5c88fbf9236d0d6fdea45c555f0b02d7a, required: true}
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{raw_hint_block}{question}\n{choices}\nAnswer with the option's letter from the given choices directly."
+answer_extraction: circular_evaluation_first_unambiguous_choice
+scorer: exact_choice_accuracy
+generation: {max_new_tokens: 1024, temperature: 0.0, top_p: 1.0, num_beams: 1}
+external_only: false
+verification_status: golden_verified
+notes: LLaVA c121f043 model_vqa_mmbench.py single-pred-prompt on all public dev-v1.0 rotations. Uses local circular exact extraction without judge fallback; this is distinct from a hosted leaderboard result. The existing mmbench_en.yaml preserves the separately qualified VLMEvalKit prompt.

@@ -1,0 +1,19 @@
+id: synthetic-contract-fixture
+annotation:
+  id: generated-two-example-fixture
+  kind: generated
+  location: scripts/create_synthetic_fixture.py
+  revision: repository-generated-v1
+  sha256: null
+  required: true
+image_sources:
+  - id: generated-images
+    kind: generated
+    location: scripts/create_synthetic_fixture.py
+    revision: repository-generated-v1
+    sha256: null
+    required: true
+split: test
+sample_fraction: 1.0
+sample_seed: 17
+max_samples: 2

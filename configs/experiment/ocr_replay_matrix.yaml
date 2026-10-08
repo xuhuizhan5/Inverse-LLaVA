@@ -1,0 +1,26 @@
+matrix_id: inverse-7b-ocr-replay-controls
+base_experiment: configs/experiment/paired_continuation_base.yaml
+selection_metric: held_out_ocr_recovery_with_cognition_retention
+seed: 42
+variants:
+  - id_suffix: ocr-replay-1pct
+    factor: replay-source
+    value: ocr
+    description: Canonical continuation on 5580 OCR-VQA and TextVQA training rows.
+    patches:
+      data_ref: ocr_replay_1pct
+      overrides.data.max_samples: null
+  - id_suffix: non-ocr-replay-rows-1pct
+    factor: replay-source
+    value: non-ocr-row-matched
+    description: Image-bearing COCO/GQA/VG replay with the same unique-row budget as OCR replay.
+    patches:
+      data_ref: non_ocr_replay_rows_1pct
+      overrides.data.max_samples: null
+  - id_suffix: non-ocr-replay-tokens-1pct
+    factor: replay-source
+    value: non-ocr-token-matched
+    description: Image-bearing COCO/GQA/VG replay with the closest whole-row surviving-target budget to OCR replay.
+    patches:
+      data_ref: non_ocr_replay_tokens_1pct
+      overrides.data.max_samples: null

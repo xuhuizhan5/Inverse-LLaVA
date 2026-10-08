@@ -1,0 +1,117 @@
+matrix_id: inverse-7b-architecture-ablation
+base_experiment: configs/experiment/screen_5pct.yaml
+selection_metric: equal_domain_mean_normalized_science_ai2d_mmstar_mme_ocrbench
+seed: 42
+variants:
+  - id_suffix: canonical
+    factor: architecture
+    value: manuscript-reference
+    description: 5% manuscript-reference condition with layer-0 concatenative Q/K/V fusion.
+    patches: {}
+  - id_suffix: mapper-frozen
+    factor: text-to-vision-mapper
+    value: frozen
+    description: 5% control with the text-to-vision mapper held fixed after initialization.
+    patches:
+      overrides.model.fusion.mapper_trainable: false
+  - id_suffix: fusion-disabled-matched-lora
+    factor: fusion
+    value: disabled-matched-lora
+    description: 5% control with inverse fusion disabled and the canonical layer-0 LoRA exclusion retained.
+    patches:
+      overrides.model.fusion.operator: disabled
+  - id_suffix: fusion-disabled-all-layer-lora
+    factor: fusion
+    value: disabled-all-layer-lora
+    description: 5% control with inverse fusion disabled and LoRA restored in every language layer.
+    patches:
+      overrides.model.fusion.operator: disabled
+      overrides.model.adaptation.exclude_fusion_layers: false
+  - id_suffix: operator-add
+    factor: fusion-operator
+    value: add
+    description: 5% fusion-operator ablation replacing concatenation with elementwise addition.
+    patches:
+      overrides.model.fusion.operator: add
+  - id_suffix: operator-gated
+    factor: fusion-operator
+    value: gated
+    description: 5% fusion-operator ablation using a learned elementwise text/vision gate.
+    patches:
+      overrides.model.fusion.operator: gated
+  - id_suffix: scale-fixed-0
+    factor: fusion-scale
+    value: fixed-0.0
+    description: 5% scale ablation with all fusion update scales fixed to 0.0.
+    patches:
+      overrides.model.fusion.scale_mode: fixed
+      overrides.model.fusion.initial_scale: 0.0
+  - id_suffix: scale-fixed-025
+    factor: fusion-scale
+    value: fixed-0.25
+    description: 5% scale ablation with all fusion update scales fixed to 0.25.
+    patches:
+      overrides.model.fusion.scale_mode: fixed
+      overrides.model.fusion.initial_scale: 0.25
+  - id_suffix: scale-fixed-05
+    factor: fusion-scale
+    value: fixed-0.5
+    description: 5% scale ablation with all fusion update scales fixed to 0.5.
+    patches:
+      overrides.model.fusion.scale_mode: fixed
+      overrides.model.fusion.initial_scale: 0.5
+  - id_suffix: scale-fixed-10
+    factor: fusion-scale
+    value: fixed-1.0
+    description: 5% scale ablation with all fusion update scales fixed to 1.0.
+    patches:
+      overrides.model.fusion.scale_mode: fixed
+      overrides.model.fusion.initial_scale: 1.0
+  - id_suffix: depth-4
+    factor: fusion-depth
+    value: layer-4
+    description: 5% depth ablation moving the single fusion block from layer 0 to layer 4.
+    patches:
+      overrides.model.fusion.layers: [4]
+  - id_suffix: depth-8
+    factor: fusion-depth
+    value: layer-8
+    description: 5% depth ablation moving the single fusion block from layer 0 to layer 8.
+    patches:
+      overrides.model.fusion.layers: [8]
+  - id_suffix: depth-16
+    factor: fusion-depth
+    value: layer-16
+    description: 5% depth ablation moving the single fusion block from layer 0 to layer 16.
+    patches:
+      overrides.model.fusion.layers: [16]
+  - id_suffix: depth-24
+    factor: fusion-depth
+    value: layer-24
+    description: 5% depth ablation moving the single fusion block from layer 0 to layer 24.
+    patches:
+      overrides.model.fusion.layers: [24]
+  - id_suffix: mapper-rank-256
+    factor: mapper-rank
+    value: "256"
+    description: 5% parameter-efficiency ablation using a rank-256 factorized text-to-vision mapper.
+    patches:
+      overrides.model.fusion.mapper_rank: 256
+  - id_suffix: mapper-rank-512
+    factor: mapper-rank
+    value: "512"
+    description: 5% parameter-efficiency ablation using a rank-512 factorized text-to-vision mapper.
+    patches:
+      overrides.model.fusion.mapper_rank: 512
+  - id_suffix: vision-layer-penultimate
+    factor: vision-feature-layer
+    value: penultimate
+    description: 5% feature ablation selecting the penultimate CLIP hidden layer instead of the final layer.
+    patches:
+      overrides.model.vision.feature_layers: [-2]
+  - id_suffix: native-width-2048-hd
+    factor: vision-feature-width
+    value: final-plus-penultimate-2048
+    description: 5% HD condition concatenating final and penultimate CLIP features at their native 2048 width.
+    patches:
+      model_ref: inverse_vicuna7b_hd

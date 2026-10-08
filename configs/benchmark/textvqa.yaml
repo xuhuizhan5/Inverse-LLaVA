@@ -1,0 +1,15 @@
+id: textvqa
+display_name: TextVQA
+split: validation
+protocol_revision: llava-v1.5-textvqa-v051-rosetta-v02
+task_type: vqa
+annotations: {id: textvqa-val-v051, kind: http, location: "https://dl.fbaipublicfiles.com/textvqa/data/TextVQA_0.5.1_val.json", revision: 0.5.1, sha256: 4ceb5aadc1a41719d0a3e4dfdf06838bcfee1db569a9a65ee67d31c99893081d, required: true}
+images: {id: textvqa-images, kind: huggingface, location: lmms-lab-encoder/textvqa, revision: 9c0699cd19768ac5ab97568f6b3cbac4c0062884, sha256: null, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nReference OCR token: {ocr_tokens}\nAnswer the question using a single word or phrase."
+answer_extraction: vqa_normalization
+scorer: textvqa_consensus
+generation: {max_new_tokens: 1024, temperature: 0.0, top_p: 1.0, num_beams: 1}
+external_only: false
+verification_status: golden_verified
+notes: Paper-era LLaVA protocol with released Rosetta v0.2 OCR tokens; all 5,000 prompts, references, and image bindings match the released fixtures, and the scorer reproduces the released 61.254% reference result exactly.

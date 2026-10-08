@@ -1,0 +1,36 @@
+matrix_id: interface-by-clip-layer-5pct
+base_experiment: configs/experiment/canonical_5pct_calibration.yaml
+selection_metric: declared_domain_scores_no_posthoc_weighting
+seed: 42
+variants:
+  - id_suffix: inverse-final
+    factor: interface-feature
+    value: inverse-final
+    description: Inverse-LLaVA using final CLIP patch features, the manuscript reference.
+    patches: {}
+  - id_suffix: inverse-penultimate
+    factor: interface-feature
+    value: inverse-penultimate
+    description: Inverse-LLaVA using penultimate CLIP patch features at unchanged width.
+    patches:
+      overrides.model.vision.feature_layers: [-2]
+  - id_suffix: projector-final
+    factor: interface-feature
+    value: projector-final
+    description: One-stage random MLP projector with final CLIP features and matched LoRA targets.
+    patches:
+      model_ref: llava15_vicuna7b_lora
+      overrides.model.projector.initialization: random
+      overrides.model.projector.initial_checkpoint_id: null
+      overrides.model.vision.feature_layers: [-1]
+      overrides.model.adaptation.excluded_layer_indices: [0]
+  - id_suffix: projector-penultimate
+    factor: interface-feature
+    value: projector-penultimate
+    description: One-stage random MLP projector with penultimate CLIP features and matched LoRA targets.
+    patches:
+      model_ref: llava15_vicuna7b_lora
+      overrides.model.projector.initialization: random
+      overrides.model.projector.initial_checkpoint_id: null
+      overrides.model.vision.feature_layers: [-2]
+      overrides.model.adaptation.excluded_layer_indices: [0]

@@ -1,0 +1,74 @@
+matrix_id: inverse-7b-paired-dose-response
+base_experiment: configs/experiment/paired_continuation_base.yaml
+selection_metric: paired_ocr_grounding_recovery_with_cognition_retention
+seed: 42
+variants:
+  - id_suffix: paired-1pct
+    factor: continuation-supervision
+    value: paired-1pct
+    description: Canonical-checkpoint continuation on 5,580 examples from the verified paired pool.
+    patches:
+      overrides.data.max_samples: 5580
+  - id_suffix: paired-5pct
+    factor: continuation-supervision
+    value: paired-5pct
+    description: Canonical-checkpoint continuation on 27,900 examples from the verified paired pool.
+    patches:
+      overrides.data.max_samples: 27900
+  - id_suffix: paired-10pct
+    factor: continuation-supervision
+    value: paired-10pct
+    description: Canonical-checkpoint continuation on 55,800 examples from the verified paired pool.
+    patches:
+      overrides.data.max_samples: 55800
+  - id_suffix: instruction-control-1pct
+    factor: continuation-supervision
+    value: instruction-control-1pct
+    description: Equal-row continuation on 5,580 examples from the natural 665K instruction mixture, including its native OCR-VQA and TextCaps proportions.
+    patches:
+      data_ref: llava_mix665k
+      overrides.data.max_samples: 5580
+  - id_suffix: instruction-control-5pct
+    factor: continuation-supervision
+    value: instruction-control-5pct
+    description: Equal-row continuation on 27,900 examples from the natural 665K instruction mixture, including its native OCR-VQA and TextCaps proportions.
+    patches:
+      data_ref: llava_mix665k
+      overrides.data.max_samples: 27900
+  - id_suffix: instruction-control-10pct
+    factor: continuation-supervision
+    value: instruction-control-10pct
+    description: Equal-row continuation on 55,800 examples from the natural 665K instruction mixture, including its native OCR-VQA and TextCaps proportions.
+    patches:
+      data_ref: llava_mix665k
+      overrides.data.max_samples: 55800
+  - id_suffix: instruction-token-matched-1pct
+    factor: continuation-control
+    value: instruction-token-matched-1pct
+    description: Natural-order instruction replay materialized to match the paired 1% supervised-token exposure as closely as whole samples permit.
+    patches:
+      data_ref: instruction_token_matched_1pct
+  - id_suffix: paired-instruction-mixed-1pct
+    factor: continuation-control
+    value: paired-instruction-mixed-1pct
+    description: Equal-update 1% continuation with 50% paired and 50% instruction examples selected deterministically.
+    patches:
+      data_ref: paired_instruction_mixed_1pct
+  - id_suffix: paired-shuffled-1pct
+    factor: continuation-control
+    value: paired-shuffled-1pct
+    description: Equal-update correspondence control using the paired rows with a deterministic derangement of their images.
+    patches:
+      data_ref: paired_shuffled_1pct
+  - id_suffix: paired-fusion-only-1pct
+    factor: continuation-mechanism
+    value: fusion-only-1pct
+    description: Paired 1% mechanism control with learned LoRA weights loaded and frozen while the fusion branch remains trainable.
+    patches:
+      overrides.model.adaptation.trainable: false
+  - id_suffix: paired-lora-only-1pct
+    factor: continuation-mechanism
+    value: lora-only-1pct
+    description: Paired 1% mechanism control with LoRA trainable and the loaded fusion branch frozen.
+    patches:
+      overrides.model.fusion.trainable: false

@@ -1,0 +1,22 @@
+id: llava-1.5-vicuna-7b-lora-official-reference
+description: Official LLaVA-1.5 7B LoRA checkpoint evaluated through the native contract.
+method_revision: llava15-official-lora-release-9e448573
+model_ref: llava15_official_lora_eval
+data_ref: synthetic
+runtime_ref: cuda_1gpu
+evidence_class: official_reference
+training:
+  seed: 42
+  epochs: 1.0
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: false
+  group_by_modality_length: false
+  max_grad_norm: 1.0
+  log_every_steps: 1
+  save_every_steps: 1
+  checkpoint_milestones: [1.0]
+  optimizer: {name: adamw, learning_rate: 0.0002, weight_decay: 0.0, betas: [0.9, 0.999], eps: 0.00000001, scheduler: cosine, warmup_ratio: 0.03}
+generation: {max_new_tokens: 128, temperature: 0.0, top_p: 1.0, num_beams: 1}
+tags: [official-reference, llava15, lora]
+overrides: {}

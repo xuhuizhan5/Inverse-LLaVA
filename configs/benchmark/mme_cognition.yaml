@@ -1,0 +1,15 @@
+id: mme-cognition
+display_name: MME Cognition
+split: official-test
+protocol_revision: llava-v1.5-mme-2df36a33-e9bf2f53
+task_type: mme
+annotations: {id: llava-v1.5-eval, kind: http, location: "https://drive.usercontent.google.com/download?id=1atZSBBrAX54yYpxtVVW33zFvcnaHeFPy&export=download&confirm=t", revision: llava-v1.5-eval-2df36a33, sha256: 2df36a33e3d3947d3e351e627449ee7cc7725d69ecc8dcbb2103d90172fbe17a, required: true}
+images: {id: mme-open-gvlab-851fb933, kind: http, location: "https://huggingface.co/OpenGVLab/InternVL/resolve/851fb933056db175ce98036baec2dd6826cd2c26/MME_Benchmark_release_version.zip", repo_type: model, revision: 851fb933056db175ce98036baec2dd6826cd2c26, sha256: e9bf2f535d4f12975765f73f7cb49895c87bb16bbf84a14fbc6603f969d2ab05, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}"
+answer_extraction: normalized_first_yes_no
+scorer: mme_cognition_accuracy_plus
+generation: {max_new_tokens: 128, temperature: 0.0, top_p: 1.0, num_beams: 1}
+external_only: false
+verification_status: golden_verified
+notes: Pinned LLaVA inputs with lmms-eval extraction, which extends the original MME parser for y/n and punctuation. Retain paired questions and official category aggregation. Check each new prediction set against the original calculator and record any parser differences before comparing scores.

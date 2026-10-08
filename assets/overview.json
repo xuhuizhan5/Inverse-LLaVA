@@ -1,0 +1,64 @@
+{
+  "benchmark": "VizWiz",
+  "sample_id": "VizWiz_test_00006540.jpg",
+  "prompt": "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: <image>\nWhat color is it?\nWhen the provided information is insufficient, respond with 'Unanswerable'.\nAnswer the question using a single word or phrase. ASSISTANT:",
+  "display_question": "What color is it?",
+  "references": [
+    "white",
+    "shoe white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white",
+    "white"
+  ],
+  "reference_counts": {
+    "white": 9,
+    "shoe white": 1
+  },
+  "outputs": {
+    "Inverse-LLaVA": "White",
+    "LLaVA-LoRA": "Blue",
+    "LLaVA-FFT": "Blue"
+  },
+  "item_scores": {
+    "Inverse-LLaVA": 1.0,
+    "LLaVA-LoRA": 0.0,
+    "LLaVA-FFT": 0.0
+  },
+  "sources": {
+    "Inverse-LLaVA": {
+      "checkpoint_id": "ckpt-9ed8914aedbbeb55",
+      "score_sha256": "4f852a3af88155a603ef0d94b7d9070250f838a457c117389732fa0bdc624338",
+      "predictions_sha256": "ef3e1734b4d922bc23161c50dbde0523b4e21e84efa489324e8ac82a1ac087f2",
+      "protocol_id": "protocol-adfe0ae594e9ab17"
+    },
+    "LLaVA-LoRA": {
+      "checkpoint_id": "ckpt-b38398c6a9a9035c",
+      "score_sha256": "3ae13eac444f44181488f597b1ada432b55a09678d1a7aa989697626ef5ad8a2",
+      "predictions_sha256": "c0323cbac9c3df98b332a7a0fbaa1d2b9c1f5a7c5c933d9100dbf74e95e642d8",
+      "protocol_id": "protocol-adfe0ae594e9ab17"
+    },
+    "LLaVA-FFT": {
+      "checkpoint_id": "ckpt-48c21e3ec3156f18",
+      "score_sha256": "926ee0222edcaaec9afe8f77a2e16735240d8ae369659c23f19485e45ba9c557",
+      "predictions_sha256": "609ba38da407551852da4f1266b1e17a60ce150a545f23f8729ec274b3fd51f9",
+      "protocol_id": "protocol-adfe0ae594e9ab17"
+    }
+  },
+  "contract": {
+    "benchmark": "vizwiz",
+    "scorer_id": "vizwiz-public-test-april2026-llava-prompt-v2",
+    "examples_sha256": "e2f13a7e77e8b2a29ba39d9fb407f8a4a44f21b5e14eeb642b67b28c3931a846",
+    "protocol_config_sha256": "9f57e50a0d3880f405c37d3dfcbb552de171adcd86735244d6a0af1229d14d41"
+  },
+  "primary_panel_sha256": "3401fb0e401cccd92fca7f290e20c4ab35820ae6b096ffa276f7261b1da6e622",
+  "image_sha256": "1cace2245f89803b429dc241865aaecfff040c3d6c65935f123f450c523a9f56",
+  "selection": "Manually selected, visually inspected example with short free-form outputs and unambiguous color contrast, from accepted primary-model successes with both baselines scoring zero. Excludes existing casebooks. Illustrates a response, not its prevalence or an architectural cause.",
+  "display_policy": "Original photograph, preserved aspect ratio, no crop or alteration. Question and answers verbatim; fixed chat wrapper and response instructions omitted from display only. Reference: White (1) uses the consensus score, not the annotation count. All reference annotations retained here.",
+  "generator_sha256": "c68baa937bce2be0a751bd88378c5fc6f20169de2b66f21903355e978996c3eb",
+  "svg_sha256": "b8826820d17ee69ba95d6b81ca08f3e1e1ea1927c5f06ac88ae90fc35c8d791a"
+}

@@ -1,0 +1,6 @@
+id: llava-v1.5-mix665k-ocr-layout
+entries:
+  - source: ocr_vqa/images
+    destination: ocr_vqa/images
+  - source: textvqa/train_images
+    destination: textvqa/train_images

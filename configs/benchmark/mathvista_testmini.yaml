@@ -1,0 +1,14 @@
+id: mathvista-testmini
+display_name: MathVista testmini
+split: testmini
+protocol_revision: mathvista-official-pending-golden
+task_type: exact_match
+annotations: {id: mathvista, kind: huggingface, location: AI4Math/MathVista, revision: pending-freeze, sha256: null, required: true}
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\n{choices}\nGive the final answer."
+answer_extraction: official_mathvista_extraction
+scorer: official_mathvista
+external_only: false
+verification_status: unverified
+notes: Optional; freeze and golden-test answer extraction before looking at model scores.

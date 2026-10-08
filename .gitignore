@@ -1,44 +1,112 @@
-# Python
-__pycache__
-*.pyc
-*.egg-info
-dist
-
-# Log
-logs
-*.log
-*.log.*
-*.jsonl
-*.err
-
-# Data
-!**/alpaca-data-conversation.json
-playground/data/*
-# Editor
-.idea
-*.swp
-
-# Other
+# Operating systems and editors
 .DS_Store
-wandb
-output
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
 
-checkpoints
-ckpts*
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.ipynb_checkpoints/
+.nox/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+build/
+dist/
+site/
+.venv/
+.venv-*/
+.venv-thor/
+venv/
+.uv-cache/
 
-.ipynb_checkpoints
-*.ipynb
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+.aws/
+.ssh/
+.runpod/
+.huggingface/
+.docker/config.json
+.netrc
+*.pem
+*.key
 
-# DevContainer
-!.devcontainer/*
+# Model, dataset, and runtime caches
+.cache/
+hf_cache/
+huggingface/
+torch_extensions/
+torchinductor/
+triton_cache/
+triton/
+.deepspeed/
+.nv/
+wandb/
+tensorboard/
+mlruns/
+lightning_logs/
+ray_results/
 
-# Demo
-serve_images/
+# Large or generated experiment state
+/data/
+/datasets/
+/downloads/
+/models/
+/weights/
+/checkpoints/
+/runs/
+/outputs/
+/artifacts/
+/scratch/
+/tmp/
+/logs/
+/profiles/
+/predictions/
+/submissions/
 
-# Images
-*.png
+# Weight, array, cache, and archive formats
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+*.arrow
+*.parquet
+*.npy
+*.npz
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.zst
+*.nsys-rep
+*.qdrep
+*.sqlite
+*.sqlite3
+slurm-*.out
+core
+core.*
 
-# Figures
-figures/*
-misc/*.png
-misc/*.pdf
+# Private author workspace (excluded from public source)
+/Inverse-LLaVA-Tex/
+/docs/revision/
+/docs/results/
+/docs/reproducibility/
+/tools/runpod/
+/tools/thor/
+/revision_addressable.md
+/SOURCE_MANIFEST.json

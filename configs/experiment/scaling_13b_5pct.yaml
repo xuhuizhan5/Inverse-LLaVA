@@ -1,0 +1,38 @@
+id: inverse-llava-vicuna-13b-5pct
+description: Matched 13B subset recipe with the batch partition qualified on two H100 80 GB GPUs.
+method_revision: manuscript-submission-equations-2-4
+model_ref: inverse_vicuna13b_pilot
+data_ref: llava_mix665k
+runtime_ref: cuda_2gpu_zero2
+evidence_class: controlled_architecture
+initial_checkpoint_id: null
+training:
+  seed: 42
+  epochs: 1.0
+  # Full-length batch 32 exceeded memory. The matched 7B control also uses
+  # batch 16: equal global batch alone does not fix microbatch loss weighting.
+  per_device_batch_size: 16
+  gradient_accumulation_steps: 4
+  gradient_checkpointing: true
+  group_by_modality_length: true
+  max_grad_norm: 1.0
+  log_every_steps: 1
+  save_every_steps: 100
+  checkpoint_milestones: [0.1, 0.25, 0.5, 1.0]
+  optimizer:
+    name: adamw
+    learning_rate: 0.0002
+    weight_decay: 0.0
+    betas: [0.9, 0.999]
+    eps: 0.00000001
+    scheduler: cosine
+    warmup_ratio: 0.03
+generation:
+  max_new_tokens: 128
+  temperature: 0.0
+  top_p: 1.0
+  num_beams: 1
+tags: [optional, scaling-pilot, five-percent]
+overrides:
+  data:
+    sample_fraction: 0.05

@@ -1,0 +1,34 @@
+id: llava-1.5-vicuna-7b-controlled-canary
+description: Two-example real-model load, projector, update, checkpoint, and generation check.
+method_revision: llava15-controlled-baseline-v1
+model_ref: llava15_vicuna7b_lora
+data_ref: synthetic
+runtime_ref: thor_real_model
+evidence_class: controlled_architecture
+initial_checkpoint_id: null
+training:
+  seed: 42
+  epochs: 1.0
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  group_by_modality_length: true
+  max_grad_norm: 1.0
+  log_every_steps: 1
+  save_every_steps: 1
+  checkpoint_milestones: [0.5, 1.0]
+  optimizer:
+    name: adamw
+    learning_rate: 0.0002
+    weight_decay: 0.0
+    betas: [0.9, 0.999]
+    eps: 0.00000001
+    scheduler: cosine
+    warmup_ratio: 0.0
+generation:
+  max_new_tokens: 4
+  temperature: 0.0
+  top_p: 1.0
+  num_beams: 1
+tags: [canary, real-model, controlled-baseline, synthetic, non-scientific]
+overrides: {}

@@ -1,0 +1,43 @@
+id: inverse-vicuna7b-canonical
+architecture: inverse_llava
+language:
+  checkpoint: lmsys/vicuna-7b-v1.5
+  revision: 3321f76e3f527bd14065daf69dad9344000a201d
+  family: vicuna
+  hidden_size: 4096
+  num_layers: 32
+  image_token: "<image>"
+  max_length: 2048
+  trust_remote_code: false
+vision:
+  checkpoint: openai/clip-vit-large-patch14-336
+  revision: ce19dc912ca5cd21c8a653c79e251e808ccabcd1
+  feature_layers: [-1]
+  feature_select: patch
+  feature_dim: 1024
+  image_size: 336
+  aspect_ratio: pad
+  freeze: true
+fusion:
+  layers: [0]
+  targets: [q, k, v]
+  operator: concat
+  mapper_rank: null
+  trainable: true
+  mapper_trainable: true
+  visual_normalization: rms
+  visual_norm_eps: 0.000001
+  scale_mode: learned
+  initial_scale: 1.0
+  mapper_init_std: null
+  output_init_std: 0.0001
+  initialization_id: champion-artifact-reconciled-v1
+adaptation:
+  method: lora
+  trainable: true
+  rank: 128
+  alpha: 256
+  dropout: 0.05
+  target_suffixes: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  exclude_fusion_layers: true
+torch_dtype: bfloat16

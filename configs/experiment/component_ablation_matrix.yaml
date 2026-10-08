@@ -1,0 +1,75 @@
+matrix_id: inverse-7b-components-5pct
+base_experiment: configs/experiment/canonical_5pct_calibration.yaml
+selection_metric: declared_domain_scores_no_posthoc_weighting
+seed: 42
+variants:
+  - id_suffix: canonical
+    factor: architecture
+    value: manuscript-reference
+    description: Layer-0 concatenative Q/K/V fusion on the fixed 5% subset.
+    patches: {}
+  - id_suffix: mapper-frozen
+    factor: mapper
+    value: frozen
+    description: Hold the initialized mapper fixed; retain its forward computation.
+    patches:
+      overrides.model.fusion.mapper_trainable: false
+  - id_suffix: addition
+    factor: operator
+    value: add
+    description: Shared output projection for the disjoint modality streams.
+    patches:
+      overrides.model.fusion.operator: add
+  - id_suffix: gating
+    factor: operator
+    value: gated
+    description: Learned elementwise gate followed by a shared output projection.
+    patches:
+      overrides.model.fusion.operator: gated
+  - id_suffix: fixed-scale
+    factor: scale
+    value: fixed-one
+    description: Fix each Q/K/V fusion scale at one throughout training.
+    patches:
+      overrides.model.fusion.scale_mode: fixed
+  - id_suffix: depth0-matched-lora
+    factor: depth
+    value: layer-0-common-mask
+    description: Depth reference with LoRA excluded from layers 0 and 16.
+    patches:
+      overrides.model.adaptation.exclude_fusion_layers: false
+      overrides.model.adaptation.excluded_layer_indices: [0, 16]
+  - id_suffix: depth16-matched-lora
+    factor: depth
+    value: layer-16-common-mask
+    description: Midpoint fusion with exactly the same LoRA targets as the depth reference.
+    patches:
+      overrides.model.fusion.layers: [16]
+      overrides.model.adaptation.exclude_fusion_layers: false
+      overrides.model.adaptation.excluded_layer_indices: [0, 16]
+  - id_suffix: penultimate-clip
+    factor: visual-feature
+    value: penultimate
+    description: Select the penultimate CLIP layer at the unchanged 1024-D width.
+    patches:
+      overrides.model.vision.feature_layers: [-2]
+  - id_suffix: single-stage-projector
+    factor: architecture
+    value: single-stage-vision-to-language
+    description: Random early MLP projector with matched CLIP features and layer-0 LoRA exclusion.
+    patches:
+      model_ref: llava15_vicuna7b_lora
+      overrides.model.projector.initialization: random
+      overrides.model.projector.initial_checkpoint_id: null
+      overrides.model.vision.feature_layers: [-1]
+      overrides.model.adaptation.excluded_layer_indices: [0]
+  - id_suffix: single-stage-projector-penultimate
+    factor: visual-feature
+    value: conventional-penultimate
+    description: Random one-stage MLP projector with penultimate CLIP features and matched LoRA targets.
+    patches:
+      model_ref: llava15_vicuna7b_lora
+      overrides.model.projector.initialization: random
+      overrides.model.projector.initial_checkpoint_id: null
+      overrides.model.vision.feature_layers: [-2]
+      overrides.model.adaptation.excluded_layer_indices: [0]

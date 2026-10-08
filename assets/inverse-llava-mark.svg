@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Inverse-LLaVA emblem</title>
+  <desc id="desc">A left-facing llama with two curved ears and a folded blue neck.</desc>
+  <style>
+    .ink { fill: #142E40; }
+    .accent { fill: #0072B2; }
+    @media (prefers-color-scheme: dark) {
+      .ink { fill: #E6EDF3; }
+      .accent { fill: #56B4E9; }
+    }
+  </style>
+  <g id="llama">
+    <path class="ink" fill-rule="evenodd" d="M112 84C113 63 108 44 103 30C100 22 102 18 108 20C127 26 140 49 140 79L151 83C156 61 153 39 147 23C144 14 147 11 153 14C178 25 191 50 191 79C191 94 188 107 182 119C194 137 198 155 201 176L207 211C208 219 211 227 214 234H92C91 215 98 197 108 177C113 167 113 161 108 157C105 154 102 153 99 152L61 149C47 148 40 141 40 129V125C40 115 46 111 56 108L81 99C89 96 94 86 112 84ZM116.5 112A5.5 5.5 0 1 1 105.5 112A5.5 5.5 0 1 1 116.5 112Z"/>
+    <path class="accent" d="M182 119C194 137 198 155 201 176L207 211C208 219 211 227 214 234H140L167 200C181 181 187 159 182 119Z"/>
+  </g>
+</svg>

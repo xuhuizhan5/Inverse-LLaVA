@@ -1,0 +1,16 @@
+id: vizwiz
+display_name: VizWiz VQA
+split: test
+protocol_revision: vizwiz-public-test-april2026-llava-prompt-v2
+task_type: vqa
+annotations: {id: vizwiz-test-answers, kind: http, location: "https://vizwiz.cs.colorado.edu/VizWiz_all_answers/VQA_test.json", revision: "april-2026-etag-7d896f-650875c4f62e0", sha256: fa113f0e90230ab4690bb41c4d74e40f7087cc7c192dd8363fa4d6bad339b7aa, required: true}
+images: {id: vizwiz-images, kind: http, location: "https://vizwiz.cs.colorado.edu/VizWiz_final/images/test.zip", revision: "january-2020-etag-ecf1d95f-59afd88518300", sha256: 4d03f8c21823a3e4d1f501b1234e7380eb7cf2429ff0eb0281741ff1cc44f22a, required: true}
+protocol_sources:
+  - {id: llava-v1.5-eval, kind: http, location: "https://drive.usercontent.google.com/download?id=1atZSBBrAX54yYpxtVVW33zFvcnaHeFPy&export=download&confirm=t", revision: llava-v1.5-eval-2df36a33, sha256: 2df36a33e3d3947d3e351e627449ee7cc7725d69ecc8dcbb2103d90172fbe17a, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nWhen the provided information is insufficient, respond with 'Unanswerable'.\nAnswer the question using a single word or phrase."
+answer_extraction: vqa_normalization
+scorer: vizwiz_consensus
+external_only: false
+verification_status: golden_verified
+notes: Public April 2026 answers are joined by image ID to LLaVA's original questions, preserving their exact capitalization and short-answer suffix. All 8,000 v2 prompts and 40,000 item-level stress scores match the pinned fixtures and January 2023 official scorer. Prior v1 predictions are prompt diagnostics. Each fetched package must also pass the full image-decode and binding checks.

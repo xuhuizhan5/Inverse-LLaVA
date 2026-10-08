@@ -1,0 +1,36 @@
+id: smoke-synthetic
+description: CPU/static contract configuration; replace model with a tiny fixture in tests.
+method_revision: manuscript-submission-equations-2-4
+model_ref: inverse_vicuna7b
+data_ref: synthetic
+runtime_ref: cpu_strict
+evidence_class: controlled_architecture
+initial_checkpoint_id: null
+training:
+  seed: 42
+  epochs: 1.0
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: false
+  group_by_modality_length: true
+  max_grad_norm: 1.0
+  log_every_steps: 1
+  save_every_steps: 1
+  checkpoint_milestones: [1.0]
+  optimizer:
+    name: adamw
+    learning_rate: 0.0002
+    weight_decay: 0.0
+    betas: [0.9, 0.999]
+    eps: 0.00000001
+    scheduler: cosine
+    warmup_ratio: 0.0
+generation:
+  max_new_tokens: 4
+  temperature: 0.0
+  top_p: 1.0
+  num_beams: 1
+tags: [smoke, synthetic, no-download]
+overrides:
+  model:
+    torch_dtype: float32

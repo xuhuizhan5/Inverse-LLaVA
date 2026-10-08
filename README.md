@@ -1,84 +1,121 @@
-# Inverse-LLaVA: Rethinking Multimodal Alignment via Text-to-Vision Mapping
+<p align="center">
+  <img src="assets/inverse-llava-logo.svg" width="680" alt="Inverse-LLaVA">
+</p>
 
-**Project Website:** [https://inverse-llava.github.io](https://inverse-llava.github.io)
+<p align="center">
+  <a href="https://arxiv.org/abs/2508.12466">Paper</a> ·
+  <a href="docs/training.md">Training</a> ·
+  <a href="docs/evaluation.md">Evaluation</a> ·
+  <a href="docs/analysis.md">Analysis</a> ·
+  <a href="docs/checkpoints.md">Checkpoints</a>
+</p>
 
-### Authors
+Inverse-LLaVA brings language features into the visual feature space for fusion
+inside the language decoder. The model learns its fusion parameters and LoRA
+adapters jointly from visual instructions, without a separate alignment-pretraining
+stage.
 
-* [Xuhui Zhan](https://xuhuizhan5.github.io) (Data Science Institute, Vanderbilt University)
-* [Tyler Derr](https://tylersnetwork.github.io) (Data Science Institute and Computer Science Department, Vanderbilt University)
+<p align="center">
+  <img src="assets/overview.svg" width="100%" alt="Recorded VizWiz example: asked the color of a white shoe, Inverse-LLaVA answers White and both official LLaVA references answer Blue. The diagram compares their mapping directions.">
+</p>
 
-### Abstract
+The example is selected from VizWiz: Inverse-LLaVA answers correctly,
+while both official LLaVA-1.5 references answer incorrectly. It illustrates one
+model behavior; aggregate results cover the full benchmark.
+[Example provenance and image credit](assets/README.md).
 
-Traditional multimodal learning approaches rely on alignment pre-training to bridge vision and language modalities, typically by projecting visual features into discrete text token spaces using large-scale image-text data. We revisit this design choice and propose **Inverse-LLaVA**, a multimodal architecture that inverts the conventional mapping direction by projecting text embeddings into continuous visual representation space and performing fusion within intermediate transformer layers. This representation-first design enables effective multimodal reasoning without relying on an explicit alignment pretraining stage and significantly reduces dependence on large alignment datasets. Across nine multimodal benchmarks, Inverse-LLaVA demonstrates strong learning efficiency under reduced supervision, achieving substantial gains on reasoning-intensive tasks while exhibiting selective performance drops on perception tasks that depend on explicit visual-text grounding. Our analysis indicates that these trade-offs primarily reflect differences in supervision regime rather than architectural limitations. Together, these results show that alignment pretraining is not strictly required for effective multimodal reasoning and highlight the importance of preserving continuous modality representations, opening a new direction for multimodal architecture design that decouples representation structure from supervision regime for more flexible and efficient multimodal systems.
+## Method
 
----
+At selected decoder layers, separate text-to-vision maps produce Q, K and V
+updates. Visual features enter these branches at their encoder width; the fused
+updates return to the language attention width. The original language path is
+retained.
 
-This codebase is adapted from the original [LLaVA](https://github.com/haotian-liu/LLaVA) project. We have made modifications to implement Inverse-LLaVA and Inverse-LLaVA-HD.
+[Architecture diagram](assets/architecture.svg) ·
+[Tensor shapes, masks and initialization](docs/method/METHOD_CONTRACT.md)
 
-## Training
+The 7B reference uses Vicuna-7B-v1.5, CLIP ViT-L/14 at 336 pixels, final-layer
+visual features and fusion at decoder layer 0. Inverse-LLaVA-HD concatenates
+the penultimate and final CLIP features along channels. Model, data and runtime settings are independent
+YAML configurations, with explicit recipes for component and scaling studies.
 
-To reproduce the training for our models, please use the following scripts:
+## Results
 
-* **Inverse-LLaVA:**
-  ```bash
-  bash llava/scripts/v1_5/fusion_finetune_lora.sh
-  ```
-* **Inverse-LLaVA-HD:**
-  ```bash
-  bash llava/scripts/v1_5/fusion_finetune_lora_HD.sh
-  ```
+Complete evaluations compare the retrained Inverse-LLaVA checkpoint with
+official LLaVA-1.5 LoRA and full-fine-tuning (FFT) checkpoints. These are shared
+evaluation protocols, not training-matched comparisons.
 
-For an apples-to-apples comparison with LLaVA-1.5, we use the same instruction-tuning dataset, backbone models, and optimization settings. The dataset preparation and structure are identical. You can find more details in the [original LLaVA repository](https://github.com/haotian-liu/LLaVA). Our approach is most closely aligned with its LoRA training methodology. The experiments were conducted on 8 NVIDIA A100 GPUs, consistent with the LLaVA-1.5 training setup.
+| Benchmark | Inverse-LLaVA | LLaVA-LoRA | LLaVA-FFT |
+|---|---:|---:|---:|
+| VQAv2 test-dev | 78.45 | 79.13 | 78.55 |
+| GQA | 62.28 | 62.63 | 61.89 |
+| VizWiz | 50.96 | 48.56 | 50.64 |
+| ScienceQA-IMG | 69.61 | 68.82 | 69.11 |
+| TextVQA | 56.96 | 58.47 | 58.21 |
+| MMBench EN | 62.63 | 67.10 | 65.12 |
+| MMBench CN | 54.04 | 58.93 | 58.33 |
+| MME perception | 1453.82 | 1484.58 | 1507.28 |
+| MME cognition | 279.29 | 258.21 | 344.64 |
+| MM-Vet | 28.67 | 31.24 | 29.68 |
 
-## Evaluation
+Values are percentages except MME's official scores. MME perception and cognition
+are two parts of one benchmark. MM-Vet uses the recorded hosted-judge protocol.
+The reference training uses 665K instruction examples; LLaVA additionally uses
+558K alignment examples. This is a 45.6% reduction in training examples, without
+implying the same reduction in training time or FLOPs.
 
-The evaluation process is identical to the one provided in the original LLaVA documentation: [LLaVA Evaluation](https://github.com/haotian-liu/LLaVA/blob/main/docs/Evaluation.md).
+## Installation
 
-However, there are some specific settings for Inverse-LLaVA to be aware of:
+Use Linux with a CUDA-compatible PyTorch installation for model execution.
 
-* `--use_mm_proj False`: This is a critical setting for Inverse-LLaVA. It disables the projection layer for the vision encoder output, which is a core aspect of our approach.
-* `--pretrain_mm_mlp_adapter ./checkpoints/llava-v1.5-13b-pretrain/mm_projector.bin`: This line has no effect in our model because `--use_mm_proj` is set to `False`.
-* `--mm_vision_select_layer`: This parameter determines which hidden states from the vision encoder are used.
-  * For **Inverse-LLaVA**, this is set to `"-1"`, meaning only the last layer's hidden state is used.
-  * For **Inverse-LLaVA-HD**, this is set to `"-1,-2"`, meaning the last and second-to-last layers' hidden states are used.
-
-## Inverse-LLaVA Specific Hyperparameters
-
-The following hyperparameters are specific to Inverse-LLaVA and control the fusion mechanism:
-
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev,analysis,tracking]"
+invllava --help
+pytest tests -m "not gpu and not network and not slow"
 ```
---model_type fusion_llama
---use_vision_fusion True
---stable_fusion False
---mm_hidden_size 1024
---fusion_alpha 1.0
---fusion_hidden_dim 128
---fusion_dropout 0.1
---fusion_targets 'q,k,v'
---lora_layer_ids_to_skip '0'
---layer_ids_to_inject '0'
+
+The [container](containers/README.md) and [pinned requirements](requirements/README.md)
+provide the verified x86/CUDA environment. TensorBoard and local JSONL metrics
+work without an online account. Optional W&B logging uses the same saved metrics;
+checkpoints remain ordinary files on your storage.
+
+## Reproduce and extend
+
+1. [Prepare data and train](docs/training.md): pinned sources, image checks,
+   the reference recipe, checkpoints and exact resume.
+2. [Evaluate](docs/evaluation.md): official prompts and scoring, baseline
+   checkpoints, local benchmarks and external submissions.
+3. [Analyze](docs/analysis.md): training curves, matched inference profiles,
+   representations and recorded qualitative cases.
+4. [Use a checkpoint](docs/checkpoints.md): the native safetensors format,
+   verification and Hugging Face loading.
+
+A training run records its resolved configuration, source identity, data
+manifest, seed, metrics and checkpoint hashes. Keep those records together with
+raw predictions and score manifests.
+
+```text
+assets/       logo, method diagrams and their provenance
+configs/      model, data, runtime and experiment recipes
+containers/   pinned CUDA environment
+docs/         method and reproducibility guides
+requirements/ dependency locks and installation checks
+scripts/      training, evaluation and analysis entry points
+src/invllava/ implementation
+tests/        model, data, checkpoint and scorer contracts
+third_party/  pinned evaluator references and notices
 ```
 
-* `--model_type fusion_llama`: Specifies the model architecture to use our fusion mechanism with LLaMA.
-* `--use_vision_fusion True`: Enables the text-to-vision fusion within the transformer layers.
-* `--stable_fusion False`: A flag for a specific fusion variant. `False` is the default for Inverse-LLaVA.
-* `--mm_hidden_size 1024`: The hidden size of the visual features. For the HD version, this is 2048.
-* `--fusion_alpha 1.0`: A weighting parameter for the fusion process.
-* `--fusion_hidden_dim 128`: The hidden dimension of the fusion layer.
-* `--fusion_dropout 0.1`: The dropout rate for the fusion layer.
-* `--fusion_targets 'q,k,v'`:  Specifies that the fusion should be applied to the query, key, and value projections in the attention mechanism.
-* `--lora_layer_ids_to_skip '0'`:  Specifies which LoRA layers to skip.
-* `--layer_ids_to_inject '0'`: Specifies which layers to inject the fusion into.
+[Code architecture](docs/extension/CODE_ARCHITECTURE.md) ·
+[Add a benchmark](docs/extension/ADDING_A_BENCHMARK.md) ·
+[Contributing](CONTRIBUTING.md)
 
-## Citation
+## Citation and terms
 
-If you find Inverse-LLaVA useful for your research and applications, please cite using this BibTeX:
-
-```
-@article{zhan2025inverse,
-  title={Inverse-LLaVA: Rethinking Multimodal Alignment via Text-to-Vision Mapping},
-  author={Zhan, Xuhui and Derr, Tyler},
-  journal={arXiv preprint arXiv:2508.12466},
-  year={2025}
-}
-```
+See [CITATION.cff](CITATION.cff) and the
+[paper](https://arxiv.org/abs/2508.12466).
+Source code is licensed under [Apache-2.0](LICENSE). Vicuna/Llama 2 model
+weights and datasets retain their separate terms; see
+[third-party notices](THIRD_PARTY_NOTICES.md).

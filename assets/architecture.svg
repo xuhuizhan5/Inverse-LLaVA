@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="810" viewBox="0 0 1200 810" role="img" aria-labelledby="title description">
+  <title id="title">LLaVA-1.5 training and Inverse-LLaVA text-to-vision fusion</title>
+  <desc id="description">LLaVA trains a visual projector on paired data before instruction tuning. Inverse-LLaVA jointly trains LoRA and independent query, key, and value fusion branches on instructions. Each branch maps normalized language states from 4096 to 1024 channels, masks text and image positions separately, concatenates mapped text with normalized CLIP features, and projects and scales the result before adding it to a frozen attention projection. Attention and the remaining decoder follow. Image positions in the initial language stream are zero. All decoder layers are retained.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#39434d"/></marker>
+    <style>
+      text { font-family: "Liberation Sans", Arial, sans-serif; fill: #202830; font-size: 24px; }
+      .heading { font-size: 28px; font-weight: 700; }
+      .label { font-size: 23px; font-weight: 700; }
+      .small { font-size: 21px; }
+      .muted { fill: #505c67; }
+      .center { text-anchor: middle; }
+      .panel { fill: #fff; stroke: #c3cbd1; stroke-width: 1.5; }
+      .frozen { fill: #edf1f4; stroke: #758494; stroke-width: 1.8; }
+      .learned { fill: #fff0d9; stroke: #a96713; stroke-width: 1.8; }
+      .wire { fill: none; stroke: #39434d; stroke-width: 2; stroke-linejoin: round; marker-end: url(#arrow); }
+      .junction { fill: #39434d; }
+    </style>
+  </defs>
+  <rect width="1200" height="810" fill="#fff"/>
+
+  <!-- Training reference. Both stages retain the frozen CLIP encoder. -->
+  <g id="llava-training">
+    <text x="20" y="32" class="heading">(a) LLaVA-1.5</text>
+    <rect x="20" y="57" width="292" height="293" rx="8" class="panel"/>
+    <text x="40" y="87" class="label">1. Alignment pretraining</text>
+    <text x="40" y="116" class="small muted">558K image–text pairs</text>
+    <rect x="44" y="138" width="244" height="48" rx="5" class="frozen"/>
+    <text x="166" y="169" class="center">CLIP encoder</text>
+    <path d="M166 186 V207" class="wire"/>
+    <rect x="44" y="208" width="244" height="48" rx="5" class="learned"/>
+    <text x="166" y="239" class="center">Visual MLP</text>
+    <path d="M166 256 V280" class="wire"/>
+    <rect x="44" y="281" width="244" height="48" rx="5" class="frozen"/>
+    <text x="166" y="312" class="center">Language model</text>
+    <path d="M166 350 V375" class="wire"/>
+    <rect x="20" y="378" width="292" height="296" rx="8" class="panel"/>
+    <text x="40" y="409" class="label">2. Instruction tuning</text>
+    <text x="40" y="438" class="small muted">665K visual instructions</text>
+    <rect x="44" y="460" width="244" height="48" rx="5" class="frozen"/>
+    <text x="166" y="491" class="center">CLIP encoder</text>
+    <path d="M166 508 V529" class="wire"/>
+    <rect x="44" y="530" width="244" height="48" rx="5" class="learned"/>
+    <text x="166" y="561" class="center">Visual MLP</text>
+    <path d="M166 578 V599" class="wire"/>
+    <rect x="44" y="600" width="244" height="54" rx="5" class="learned"/>
+    <text x="166" y="624" class="center small">Language model</text>
+    <text x="166" y="647" class="center small">FFT or LoRA</text>
+    <text x="32" y="710" class="small muted">Image features are projected</text>
+    <text x="32" y="737" class="small muted">to the language dimension</text>
+    <text x="32" y="764" class="small muted">before decoder processing.</text>
+  </g>
+
+  <!-- Default 7B model. Branch diagram is replicated independently for Q/K/V. -->
+  <g id="inverse-model">
+    <text x="350" y="32" class="heading">(b) Inverse-LLaVA</text>
+    <text x="350" y="65" class="small muted">One stage · 665K visual instructions · fusion + LoRA</text>
+    <text x="575" y="98" class="center">Text tokens</text>
+    <text x="1025" y="98" class="center">Image</text>
+    <rect x="415" y="112" width="320" height="66" rx="5" class="frozen"/>
+    <text x="575" y="139" class="center">Token embeddings · 4096</text>
+    <text x="575" y="166" class="center small">H₀: zeros at image positions</text>
+    <rect x="890" y="112" width="270" height="66" rx="5" class="frozen"/>
+    <text x="1025" y="139" class="center">CLIP encoder</text>
+    <text x="1025" y="166" class="center small">576 patches × 1024</text>
+
+    <rect x="350" y="195" width="830" height="424" rx="8" fill="#fafbfc" stroke="#adb8c1" stroke-width="1.5"/>
+    <text x="371" y="223" class="label">Fusion layer 0</text>
+    <text x="735" y="223" class="small muted">Independent Q/K/V branches</text>
+    <path d="M575 178 V240" class="wire"/>
+    <rect x="415" y="241" width="320" height="47" rx="5" class="frozen"/>
+    <text x="575" y="272" class="center">RMSNorm</text>
+    <path d="M575 288 V308 H468 V336" class="wire"/>
+    <path d="M575 308 H702 V336" class="wire"/>
+    <circle cx="575" cy="308" r="3.5" class="junction"/>
+
+    <rect x="379" y="337" width="178" height="77" rx="5" class="frozen"/>
+    <text x="468" y="369" class="center">W<tspan baseline-shift="sub" font-size="17">P</tspan></text>
+    <text x="468" y="398" class="center small">4096 → 4096</text>
+    <rect x="580" y="337" width="244" height="77" rx="5" class="learned"/>
+    <text x="702" y="365" class="center label">Text-to-vision</text>
+    <text x="702" y="393" class="center small">4096 → 1024 · D<tspan baseline-shift="sub" font-size="16">t</tspan></text>
+
+    <path d="M1025 178 V336" class="wire"/>
+    <rect x="890" y="337" width="270" height="77" rx="5" class="learned"/>
+    <text x="1025" y="365" class="center">Visual RMSNorm</text>
+    <text x="1025" y="393" class="center small">1024 channels · D<tspan baseline-shift="sub" font-size="16">v</tspan></text>
+    <path d="M702 414 V433 H765 V451" class="wire"/>
+    <path d="M1025 414 V433 H875 V451" class="wire"/>
+    <rect x="665" y="452" width="310" height="60" rx="5" class="panel"/>
+    <text x="820" y="478" class="center label">Concatenate features</text>
+    <text x="820" y="501" class="center small">1024 + 1024 = 2048</text>
+    <path d="M820 512 V539" class="wire"/>
+    <rect x="665" y="540" width="310" height="61" rx="5" class="learned"/>
+    <text x="820" y="567" class="center">Output map × α<tspan baseline-shift="sub" font-size="17">P</tspan></text>
+    <text x="820" y="591" class="center small">2048 → 4096</text>
+    <path d="M468 414 V571 H551" class="wire"/>
+    <path d="M665 571 H599" class="wire"/>
+    <circle cx="575" cy="571" r="22" fill="#fff" stroke="#39434d" stroke-width="2"/>
+    <text x="575" y="580" class="center" font-size="31">+</text>
+    <text x="991" y="480" class="small muted">P ∈ {Q, K, V}</text>
+    <text x="991" y="510" class="small muted">Disjoint masks</text>
+    <text x="991" y="536" class="small muted">text / image</text>
+
+    <path d="M575 593 V640" class="wire"/>
+    <rect x="415" y="641" width="745" height="47" rx="5" class="frozen"/>
+    <text x="787" y="672" class="center small">RoPE(Q,K) → causal attention → output/residual → FFN/residual</text>
+    <path d="M787 688 V711" class="wire"/>
+    <rect x="415" y="712" width="745" height="48" rx="5" class="frozen"/>
+    <text x="700" y="743" class="center">Decoder layers 1–31 → norm → LM head</text>
+    <rect x="972" y="719" width="177" height="34" rx="4" class="learned"/>
+    <text x="1060" y="743" class="center small">LoRA in 1–31</text>
+  </g>
+
+  <g id="legend">
+    <rect x="421" y="783" width="22" height="16" class="frozen"/>
+    <text x="452" y="798" class="small">Frozen parameters</text>
+    <rect x="674" y="783" width="22" height="16" class="learned"/>
+    <text x="705" y="798" class="small">Trainable parameters</text>
+    <text x="1002" y="798" class="small muted">7B dimensions</text>
+  </g>
+</svg>

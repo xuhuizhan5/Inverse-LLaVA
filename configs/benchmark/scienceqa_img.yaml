@@ -1,0 +1,15 @@
+id: scienceqa-img
+display_name: ScienceQA-IMG
+split: test
+protocol_revision: llava-v1.5-scienceqa-cqm-a-v1
+task_type: multiple_choice
+annotations: {id: llava-v1.5-eval, kind: http, location: "https://drive.usercontent.google.com/download?id=1atZSBBrAX54yYpxtVVW33zFvcnaHeFPy&export=download&confirm=t", sha256: 2df36a33e3d3947d3e351e627449ee7cc7725d69ecc8dcbb2103d90172fbe17a, required: true}
+images: {id: scienceqa-images, kind: huggingface, location: lmms-lab-encoder/ScienceQA, subset: ScienceQA-FULL, revision: 69dd4d6b67373d38f96a5badd5d24d0eb5bcdc50, sha256: null, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nAnswer with the option's letter from the given choices directly."
+answer_extraction: llava_scienceqa_official
+scorer: llava_scienceqa_img_accuracy
+generation: {max_new_tokens: 1024, temperature: 0.0, top_p: 1.0, num_beams: 1}
+external_only: false
+verification_status: golden_verified
+notes: Use LLaVA's checksummed CQM-A question artifact and restrict its test split to the 2,017 image-bearing examples; images come from a pinned mirror validated row-for-row against the official prompts, answers, and image flags.

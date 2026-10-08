@@ -1,0 +1,14 @@
+id: thor-real-model-validation
+accelerator: cuda
+mixed_precision: bf16
+num_processes: 1
+dataloader_workers: 2
+distributed_strategy: none
+attention_backend: sdpa
+allow_tf32: true
+deterministic_algorithms: false
+cudnn_benchmark: false
+run_root: /workspace/session/runs/real-model
+cache_root: /workspace/session/cache
+tracker: local
+keep_last_checkpoints: 2

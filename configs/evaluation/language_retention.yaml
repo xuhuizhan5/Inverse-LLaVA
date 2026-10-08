@@ -1,0 +1,31 @@
+id: language-retention-v2
+harness:
+  package: lm-eval
+  version: 0.4.12
+  source_commit: 6d642546f4688648fced259eb3302efd36ece5af
+apply_chat_template: false
+fewshot_as_multiturn: false
+context_length: 2048
+add_bos_token: true
+seed: 42
+tasks:
+  - id: mmlu
+    num_fewshot: 5
+    primary_metric: acc
+    filter: none
+  - id: hellaswag
+    num_fewshot: 0
+    primary_metric: acc_norm
+    filter: none
+  - id: arc_challenge
+    num_fewshot: 25
+    primary_metric: acc_norm
+    filter: none
+  - id: gsm8k
+    num_fewshot: 5
+    primary_metric: exact_match
+    filter: flexible-extract
+notes: >-
+  Within-study retention panel only. Compare checkpoints under this exact task,
+  prompt, few-shot, harness, tokenizer/BOS, context length, and decoding contract; do not copy
+  unrelated leaderboard values into the table.

@@ -1,0 +1,14 @@
+id: ocrbench
+display_name: OCRBench
+split: test
+protocol_revision: lmms-eval-e9ff3eccf35d1fbca061e50c6c393f96aee692b0
+task_type: exact_match
+annotations: {id: ocrbench, kind: huggingface, location: echo840/OCRBench, revision: 92a54bd1384387c178d5a07140a2d85e0a3d12e1, sha256: null, required: true}
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}"
+answer_extraction: official_category_rule
+scorer: official_ocrbench
+external_only: false
+verification_status: golden_verified
+notes: Dataset snapshot and official lmms-eval scoring utility frozen and differentially verified on 2026-08-31.

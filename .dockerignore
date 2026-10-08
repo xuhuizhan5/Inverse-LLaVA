@@ -1,0 +1,31 @@
+# Send only publication-runtime inputs to the Docker daemon. This allowlist
+# prevents local datasets, checkpoints, credentials, manuscript sources, and
+# unrelated workspace files from entering the build context even if they are
+# not covered by .gitignore.
+*
+!pyproject.toml
+!uv.lock
+!requirements.txt
+!requirements/
+!requirements/**
+!README.md
+!LICENSE
+!NOTICE
+!THIRD_PARTY_NOTICES.md
+!third_party/
+!third_party/licenses/
+!third_party/licenses/**
+!containers/
+!containers/Dockerfile
+!containers/base-image.digest
+!containers/README.md
+!src/
+!src/**
+!configs/
+!configs/**
+!scripts/
+!scripts/**
+!tools/
+!tools/**
+!tests/
+!tests/**

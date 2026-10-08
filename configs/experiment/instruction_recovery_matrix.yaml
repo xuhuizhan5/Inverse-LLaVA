@@ -1,0 +1,45 @@
+matrix_id: inverse-7b-instruction-recovery
+base_experiment: configs/experiment/instruction_recovery_base.yaml
+selection_metric: final_official_ocr_textvqa_scienceqa_and_mme_with_response_format_audit
+seed: 42
+# These recipes are independent experiments. Promotion restarts from the named
+# parent: a completed short cosine schedule is not a prefix of a longer one.
+# Materialization prepares configs; it does not authorize launching all six.
+variants:
+  - id_suffix: parent-replay-1pct
+    factor: paired-history
+    value: parent-pilot
+    description: Canonical parent followed by 1% natural-mixture instruction replay, the matched pilot control.
+    patches: {}
+  - id_suffix: paired1-replay-1pct
+    factor: paired-history
+    value: paired1-pilot
+    description: Accepted paired 1% descendant followed by the identical 1% instruction replay.
+    patches:
+      initial_checkpoint_id: sha256:d77d91e08cb9e11aac30e24ab4626bcf91357bb87041eb6c3647dabebfa003e7
+  - id_suffix: paired5-replay-1pct
+    factor: paired-history
+    value: paired5-pilot
+    description: Deferred stronger-drift pilot using the accepted paired 5% descendant and the same replay.
+    patches:
+      initial_checkpoint_id: sha256:d0ddcd50c4cfd2b81050ccec62f720f34bd643bedab86a6b3763311484c6f2a3
+  - id_suffix: parent-replay-10pct
+    factor: paired-history
+    value: parent-10pct
+    description: Conditional 10% instruction replay from the canonical parent with a fresh optimizer and full-length schedule.
+    patches:
+      overrides.data.sample_fraction: 0.1
+  - id_suffix: paired1-replay-10pct
+    factor: paired-history
+    value: paired1-10pct
+    description: Conditional 10% instruction replay from the accepted paired 1% descendant, matched to parent-replay-10pct.
+    patches:
+      initial_checkpoint_id: sha256:d77d91e08cb9e11aac30e24ab4626bcf91357bb87041eb6c3647dabebfa003e7
+      overrides.data.sample_fraction: 0.1
+  - id_suffix: paired5-replay-10pct
+    factor: paired-history
+    value: paired5-10pct
+    description: Deferred 10% instruction replay from the accepted paired 5% descendant, matched to parent-replay-10pct.
+    patches:
+      initial_checkpoint_id: sha256:d0ddcd50c4cfd2b81050ccec62f720f34bd643bedab86a6b3763311484c6f2a3
+      overrides.data.sample_fraction: 0.1

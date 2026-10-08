@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the Inverse-LLaVA manuscript."
+title: "Inverse-LLaVA: Rethinking Multimodal Alignment via Text-to-Vision Mapping"
+type: software
+license: Apache-2.0
+authors:
+  - given-names: "Xuhui"
+    family-names: "Zhan"
+  - given-names: "Tyler"
+    family-names: "Derr"
+repository-code: "https://github.com/xuhuizhan5/Inverse-LLaVA"
+preferred-citation:
+  type: article
+  title: "Inverse-LLaVA: Eliminating Alignment Pre-training Through Text-to-Vision Mapping"
+  authors:
+    - given-names: "Xuhui"
+      family-names: "Zhan"
+    - given-names: "Tyler"
+      family-names: "Derr"
+  year: 2025
+  doi: "10.48550/arXiv.2508.12466"
+  url: "https://arxiv.org/abs/2508.12466"

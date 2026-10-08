@@ -1,0 +1,15 @@
+id: mmstar
+display_name: MMStar
+split: val
+protocol_revision: lmms-eval-e9ff3eccf35d1fbca061e50c6c393f96aee692b0
+task_type: multiple_choice
+annotations: {id: mmstar, kind: huggingface, location: Lin-Chen/MMStar, revision: bc98d668301da7b14f648724866e57302778ab27, sha256: null, required: true}
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nAnswer with the option's letter from the given choices directly"
+answer_extraction: lmms_eval_mcq_extract
+scorer: official_mmstar_macro_l2
+external_only: false
+generation: {max_new_tokens: 128, temperature: 0.0, top_p: 1.0, num_beams: 1}
+verification_status: golden_verified
+notes: Full pinned split decoded; 10,500 extraction comparisons and official macro-L2 aggregation matched lmms-eval e9ff3ecc with zero mismatches.

@@ -1,0 +1,39 @@
+id: vqav2-val
+display_name: VQAv2 validation
+split: val2014
+protocol_revision: vqav2-v2-val2014-official-v1
+task_type: vqa
+annotations:
+  id: vqav2-val-questions
+  kind: http
+  location: https://cvmlp.s3.amazonaws.com/vqa/mscoco/vqa/v2_Questions_Val_mscoco.zip
+  revision: v2-etag-b9d3a3147866ec65b7e000a4767cc8aa
+  sha256: e71f6c5c3e97a51d050f28243e262b28cd0c48d11a6b4632d769d30d3f93222a
+  required: true
+images:
+  id: coco-val2014
+  kind: http
+  location: http://images.cocodataset.org/zips/val2014.zip
+  revision: 2014-etag-3925cc4d50eb68d47bf2d6324a012d20-793
+  sha256: fe9be816052049c34717e077d9e34aa60814a55679f804cd043e3cbee3b9fde0
+  required: true
+protocol_sources:
+  - id: vqav2-val-answers
+    kind: http
+    location: https://cvmlp.s3.amazonaws.com/vqa/mscoco/vqa/v2_Annotations_Val_mscoco.zip
+    revision: v2-etag-4607184e3d7f057ed22f65ca55038e6b
+    sha256: 0caae7c8d1dafd852727f5ac046bc1efca9b72026bd6ffa34fc489f3a7b3291e
+    required: true
+  - id: vqav2-official-evaluator
+    kind: http
+    location: https://raw.githubusercontent.com/GT-Vision-Lab/VQA/a013f0043c1e2cdc995922dfe257f7149aa9af06/PythonEvaluationTools/vqaEvaluation/vqaEval.py
+    revision: a013f0043c1e2cdc995922dfe257f7149aa9af06
+    sha256: f08edfcad5be0112500993e245c706b6cb928eadebe203f89f838e5e0d04bec8
+    required: true
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nAnswer the question using a single word or phrase."
+answer_extraction: vqa_official_conditional_normalization
+scorer: vqav2_consensus
+external_only: false
+verification_status: golden_verified
+notes: All 214,354 public validation questions, 40,504 images, and five full native-versus-official scorer panels passed the pinned upstream golden; keep validation results separate from hidden-label test-dev leaderboard values.

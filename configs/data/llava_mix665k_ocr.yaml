@@ -1,0 +1,26 @@
+id: llava-v1.5-mix665k-ocr
+annotation:
+  id: llava-v1.5-mix665k-annotation
+  kind: huggingface
+  location: liuhaotian/LLaVA-Instruct-150K:llava_v1_5_mix665k.json
+  revision: 9d451dc7629cfe0469f6ae4432b765cd603d5fcb
+  sha256: ce959ce6e23073ee1cd1a8a2ef1c633768c10d4174327b8b2dc7113b91af6cf8
+  required: true
+image_sources:
+  - id: ocr-vqa-images-reconstruction
+    kind: huggingface
+    location: weizhiwang/llava_v15_instruction_images:ocr_vqa_images_llava_v15.zip
+    revision: 3497ab84b6059214a443a41e80ce98d46f2d67cf
+    sha256: 3759c8aa0f17cab162e22fc5c3ac77f3a4d5e342974c4ad4cc316b2308a0094a
+    required: true
+  - id: textvqa-train-val
+    kind: http
+    location: https://dl.fbaipublicfiles.com/textvqa/images/train_val_images.zip
+    revision: etag:79ddfdcdb3f40b3466b9c0dc2f0cda25-68
+    sha256: ecf35005640d0708eae185aab1c0a10f89b2db7420b29185a1ed92a8f4290498
+    required: true
+split: train
+include_sources: [ocr_vqa, textvqa]
+sample_fraction: 1.0
+sample_seed: 17
+max_samples: null

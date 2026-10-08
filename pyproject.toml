@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "inverse-llava"
+version = "0.1.0"
+description = "Research implementation and evaluation framework for Inverse-LLaVA"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "third_party/licenses/*.txt"]
+requires-python = ">=3.10,<3.13"
+authors = [
+  {name = "Xuhui Zhan"},
+  {name = "Tyler Derr"},
+]
+keywords = ["multimodal learning", "vision-language models", "LLaVA"]
+dependencies = [
+  "accelerate>=1.13,<2",
+  "datasets>=4.8,<6",
+  "huggingface-hub>=1.14,<2",
+  "numpy>=1.26,<2",
+  "pillow>=10.4,<12",
+  "protobuf>=6,<8",
+  "pydantic>=2.13,<3",
+  "pyyaml>=6.0,<7",
+  "safetensors>=0.7,<1",
+  "sentencepiece>=0.2,<1",
+  "torch>=2.12,<2.14",
+  "transformers>=5.8,<6",
+]
+
+[project.optional-dependencies]
+analysis = [
+  "matplotlib>=3.9,<4",
+  "pandas>=2.2,<3",
+  "scikit-learn>=1.5,<2",
+  "scipy>=1.14,<2",
+  "seaborn>=0.13,<1",
+]
+tracking = ["tensorboard>=2.18,<3"]
+distributed = ["deepspeed==0.19.6"]
+wandb = ["wandb>=0.19,<1"]
+judge = ["openai>=1.59,<2"]
+language-eval = ["lm-eval==0.4.12"]
+dev = [
+  "mypy>=1.13,<2",
+  "pre-commit>=4,<5",
+  "pytest>=9,<10",
+  "pytest-cov>=6,<7",
+  "ruff>=0.16.4,<0.17",
+  "types-PyYAML>=6.0,<7",
+]
+
+[project.scripts]
+invllava = "invllava.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/invllava"]
+
+# The publication container supplies its CUDA-matched PyTorch build. The CPU
+# index keeps uv's lock from pulling a second CUDA runtime; Pod syncs retain and
+# verify NVIDIA's system package instead.
+[tool.uv.sources]
+torch = [
+  {index = "pytorch-cpu", marker = "sys_platform == 'linux'"},
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+extend-exclude = [".venv*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "src"]
+addopts = "-ra --strict-markers"
+markers = [
+  "gpu: requires a CUDA device",
+  "network: requires network access",
+  "slow: exceeds the local unit-test budget",
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+packages = ["invllava"]

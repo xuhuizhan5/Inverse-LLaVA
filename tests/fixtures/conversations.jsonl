@@ -1,0 +1,2 @@
+{"id":"fixture-1","images":["tests/fixtures/images/red.png"],"source":"synthetic","turns":[{"role":"user","text":"<image> What color is the square?"},{"role":"assistant","text":"Red."}]}
+{"id":"fixture-2","images":["tests/fixtures/images/blue.png"],"source":"synthetic","turns":[{"role":"user","text":"<image> How many squares are visible?"},{"role":"assistant","text":"One."}]}

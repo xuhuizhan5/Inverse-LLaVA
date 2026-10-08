@@ -1,0 +1,22 @@
+matrix_id: inverse-width-capacity-5pct
+base_experiment: configs/experiment/canonical_5pct_calibration.yaml
+selection_metric: declared_domain_scores_no_posthoc_weighting
+seed: 42
+variants:
+  - id_suffix: seven-billion
+    factor: language-size
+    value: 7b
+    description: Shared 7B reference; reuse a completed run only after matching its resolved recipe and rows.
+    patches: {}
+  - id_suffix: hd
+    factor: visual-feature-width
+    value: "2048"
+    description: Two CLIP hidden layers at unchanged image resolution and language-model size.
+    patches:
+      model_ref: inverse_vicuna7b_hd
+  - id_suffix: thirteen-billion
+    factor: language-size
+    value: 13b
+    description: Same-recipe larger-backbone pilot; a real memory and resume canary is required.
+    patches:
+      model_ref: inverse_vicuna13b_pilot

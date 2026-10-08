@@ -1,0 +1,14 @@
+id: mmbench-en
+display_name: MMBench EN
+split: dev-v1.0
+protocol_revision: vlmevalkit-470e5178-mmbench-v10-circular-exact
+task_type: multiple_choice
+annotations: {id: mmbench-dev-en-v10, kind: http, location: "http://opencompass.openxlab.space/utils/benchmarks/MMBench/MMBench_DEV_EN.tsv", revision: "VLMEvalKit@470e51787a351764057869304e425bc76170bdc6; md5=b6caf1133a01c6bb705cf753bb527ed8", sha256: 64baa14c5ec650302f428212a0b3efc5c88fbf9236d0d6fdea45c555f0b02d7a, required: true}
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{hint_block}Question: {question}\nOptions:\n{choices}\nPlease select the correct answer from the options above."
+answer_extraction: circular_evaluation_first_unambiguous_choice
+scorer: exact_choice_accuracy
+external_only: false
+verification_status: golden_verified
+notes: Public-answer v1.0 development protocol; all 4,329 rotations, 1,164 image groups, prompts, references, compact/legacy bindings, and 30,303 extraction cases match pinned VLMEvalKit. Exact matching uses no judge fallback and remains distinct from submitted leaderboard values.

@@ -1,0 +1,14 @@
+id: llava-v1.5-mix665k-official-layout-v1
+entries:
+  - source: coco/train2017
+    destination: coco/train2017
+  - source: gqa/images
+    destination: gqa/images
+  - source: ocr_vqa/images
+    destination: ocr_vqa/images
+  - source: textvqa/train_images
+    destination: textvqa/train_images
+  - source: vg-part1/VG_100K
+    destination: vg/VG_100K
+  - source: vg-part2/VG_100K_2
+    destination: vg/VG_100K_2

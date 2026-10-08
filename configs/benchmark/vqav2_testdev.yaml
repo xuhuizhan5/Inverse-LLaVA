@@ -1,0 +1,22 @@
+id: vqav2-testdev
+display_name: VQAv2 test-dev
+split: test-dev2015
+protocol_revision: vqav2-testdev2015-llava-c121f043-server-v1
+task_type: external_submission
+annotations: {id: vqav2-testdev-questions, kind: manual, location: v2_OpenEnded_mscoco_test-dev2015_questions.json, revision: v2, sha256: d96a59e8ce7e6e74689dd5198ec0c482e4c5a8744874a805a3e28c101061fae7, required: true}
+images: {id: coco-test2015, kind: manual, location: COCO test2015, revision: "2015", sha256: null, required: true}
+protocol_sources:
+  - {id: llava-vqav2-submission-converter, kind: http, location: "https://raw.githubusercontent.com/haotian-liu/LLaVA/c121f0432da27facab705978f83c4ada465e46fd/scripts/convert_vqav2_for_submission.py", revision: c121f0432da27facab705978f83c4ada465e46fd, sha256: 7d932fcb5b91dc2fa54efc173a39a27c53c5aeb0eaccb3c71fd3559309e6f47c, required: true}
+  - {id: llava-m4c-answer-processor, kind: http, location: "https://raw.githubusercontent.com/haotian-liu/LLaVA/c121f0432da27facab705978f83c4ada465e46fd/llava/eval/m4c_evaluator.py", revision: c121f0432da27facab705978f83c4ada465e46fd, sha256: 8b49e1033e29d551c0bdd86d9149e2b54370e4cd17e52176ac9061b3521f0774, required: true}
+  - {id: vqav2-full-test-envelope, kind: manual, location: v2_OpenEnded_mscoco_test2015_questions.json, revision: v2, sha256: 69169f086e0fa9f878a7425aabe6573e999af79029726b64bbf144482000960a, required: true}
+  - {id: vqav2-official-test-question-archive, kind: http, location: "https://cvmlp.s3.amazonaws.com/vqa/mscoco/vqa/v2_Questions_Test_mscoco.zip", revision: v2, sha256: 982e2e687a86514b78ea83af356d151976c5e3fb4168a29ca543610574082ad7, required: true}
+  - {id: llava-vqav2-loader, kind: http, location: "https://raw.githubusercontent.com/haotian-liu/LLaVA/c121f0432da27facab705978f83c4ada465e46fd/llava/eval/model_vqa_loader.py", revision: c121f0432da27facab705978f83c4ada465e46fd, sha256: c91a9ea3b5cb4cc27799ba9585a0d2a1f33c37ed822ae21ba4b5b20444f90681, required: true}
+  - {id: llava-v15-testdev-prompt-fixture, kind: http, location: "https://drive.usercontent.google.com/download?id=1atZSBBrAX54yYpxtVVW33zFvcnaHeFPy&export=download&confirm=t", revision: llava-v1.5-eval-2df36a33, sha256: 2df36a33e3d3947d3e351e627449ee7cc7725d69ecc8dcbb2103d90172fbe17a, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nAnswer the question using a single word or phrase."
+answer_extraction: llava_m4c_evalai_with_explicit_full_test_padding
+scorer: official_vqa_server
+external_only: true
+verification_status: golden_verified
+generation: {max_new_tokens: 128, temperature: 0.0, top_p: 1.0, num_beams: 1}
+notes: "Evaluate all 107,394 test-dev prompts using 36,807 referenced images. The pinned LLaVA converter produces a 447,793-row full-test upload envelope. Every new prediction set requires full coverage, converter parity, and a server scoring receipt. Only test-dev questions are inferred; the other 340,399 upload answers are explicitly empty padding. Submit to the test-dev phase and retain the explicit test-dev scope for comparison with the original LLaVA results. These predictions cannot establish test-standard performance."

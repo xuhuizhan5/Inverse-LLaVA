@@ -1,0 +1,25 @@
+id: synthetic-contract
+display_name: Synthetic contract fixture
+split: generated
+protocol_revision: repository-generated-v1
+task_type: exact_match
+annotations:
+  id: generated-two-example-fixture
+  kind: generated
+  location: scripts/create_synthetic_fixture.py
+  revision: repository
+  sha256: null
+  required: true
+images: null
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nAnswer using a single word."
+answer_extraction: normalized_exact_match
+scorer: normalized_exact_match
+external_only: false
+generation:
+  max_new_tokens: 4
+  temperature: 0.0
+  top_p: 1.0
+  num_beams: 1
+verification_status: fixture_verified
+notes: Contract test only; never report as scientific evidence.

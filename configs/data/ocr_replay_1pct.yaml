@@ -1,0 +1,9 @@
+id: ocr-replay-1pct
+annotation:
+  id: ocr-replay-control
+  kind: generated
+  location: generated-by-materialize-ocr-replay-controls
+  revision: ocr-replay-controls-v1-expanded-targets
+  required: true
+split: train
+sample_seed: 17

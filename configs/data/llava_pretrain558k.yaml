@@ -1,0 +1,19 @@
+id: llava-pretrain-558k-paired
+annotation:
+  id: llava-pretrain-blip-laion-cc-sbu
+  kind: huggingface
+  location: liuhaotian/LLaVA-Pretrain:blip_laion_cc_sbu_558k.json
+  revision: 70f9d1e5e1a697fe35830875cfc7de1dd590d727
+  sha256: fe0a999808f30dba5067297a1283d0937a0f519101298ad639d178d8564dfcd6
+  required: true
+image_sources:
+  - id: llava-pretrain-images
+    kind: huggingface
+    location: liuhaotian/LLaVA-Pretrain:images.zip
+    revision: 70f9d1e5e1a697fe35830875cfc7de1dd590d727
+    sha256: 05459d8cb059bd32322b1c466c1cbd4568b09b1ce1db748425b7977236912660
+    required: true
+split: train
+sample_fraction: 1.0
+sample_seed: 17
+max_samples: null

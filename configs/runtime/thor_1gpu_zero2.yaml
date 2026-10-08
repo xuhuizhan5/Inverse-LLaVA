@@ -1,0 +1,17 @@
+id: thor-1gpu-zero2-validation
+accelerator: cuda
+mixed_precision: bf16
+num_processes: 1
+dataloader_workers: 0
+distributed_strategy: deepspeed_zero2
+attention_backend: sdpa
+allow_tf32: true
+deterministic_algorithms: false
+cudnn_benchmark: false
+# Same allocator policy used in the accepted Thor resume and two-H100 runs.
+cuda_allocator_conf: garbage_collection_threshold:0.75,expandable_segments:True
+run_root: /workspace/session/runs
+cache_root: /workspace/session/cache
+tracker: tensorboard
+hardware_telemetry_interval_seconds: 0
+keep_last_checkpoints: 2

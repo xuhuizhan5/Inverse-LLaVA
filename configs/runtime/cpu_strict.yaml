@@ -1,0 +1,14 @@
+id: cpu-strict-local
+accelerator: cpu
+mixed_precision: "no"
+num_processes: 1
+dataloader_workers: 0
+distributed_strategy: none
+attention_backend: eager
+allow_tf32: false
+deterministic_algorithms: false
+cudnn_benchmark: false
+run_root: /tmp/invllava-runs
+cache_root: /tmp/invllava-cache
+tracker: local
+keep_last_checkpoints: 2

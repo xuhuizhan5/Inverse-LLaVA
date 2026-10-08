@@ -1,0 +1,17 @@
+id: mmvet
+display_name: MM-Vet v1 (official hosted GPT-4.1 judge)
+split: official
+protocol_revision: mmvet-v1-llava-c121f043-hosted-gpt41-ad769f03-1run
+task_type: judge
+annotations: {id: mmvet-v1, kind: manual, location: "mm-vet/mm-vet.json from the official v1 archive", revision: v1, sha256: 6eced3121b9865098ea72aca233ca5ff7fd7b81374494d878815b9f856442d8e, required: true}
+images: {id: mmvet-v1-archive, kind: http, location: "https://github.com/yuweihao/MM-Vet/releases/download/v1/mm-vet.zip", revision: v1, sha256: ff85408b7f382be146195b10ff5c7f995fbf297e92ea1132b61e438c8967116a, required: true}
+protocol_sources:
+  - {id: mmvet-official-hosted-evaluator, kind: http, location: "https://huggingface.co/spaces/whyu/MM-Vet_Evaluator/resolve/ad769f03ae36b7a278bc3c72b912be892b2c4b36/app.py", revision: ad769f03ae36b7a278bc3c72b912be892b2c4b36, sha256: 6c7acbbd02d895f39d2b2e519504db86a5a3d1db920932c84ad26068ac0df5db, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}"
+answer_extraction: none
+scorer: official_mmvet_hosted_gpt41
+external_only: false
+generation: {max_new_tokens: 1024, temperature: 0.0, top_p: 1.0, num_beams: 1}
+verification_status: fixture_verified
+notes: "Pinned official hosted GPT-4.1 protocol for 218 v1 questions and 200 images. Use one grading run per model and the same judge for all compared models. Check the service commit before submission, retain the downloaded grading ZIP and service receipt, and validate every question, grade, and model identity. Report the returned judge identifier. Keep these scores separate from published values judged by GPT-4-0613. Each new prediction set requires its own complete submission and validated grading result."

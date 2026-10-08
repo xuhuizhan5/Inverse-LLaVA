@@ -1,0 +1,17 @@
+id: gqa
+display_name: GQA
+split: testdev_balanced
+protocol_revision: llava-v1.5-gqa-testdev-balanced-v1
+task_type: exact_match
+annotations: {id: gqa-questions-v12, kind: http, location: "https://downloads.cs.stanford.edu/nlp/data/gqa/questions1.2.zip", revision: "1.2", sha256: cffe92775624693799d70c15db631d4373e4d09b44153e1757ccf1d5fb3fc623, required: true}
+images: {id: gqa-images-v11, kind: http, location: "https://downloads.cs.stanford.edu/nlp/data/gqa/images.zip", revision: "1.1-etag-5c55f4cb-51473bbe6", sha256: 02ce5c49c793accd5305356de9c39a50f80a7aaac193b0203de30dbbc65bde62, required: true}
+protocol_sources:
+  - {id: llava-v1.5-eval, kind: http, location: "https://drive.usercontent.google.com/download?id=1atZSBBrAX54yYpxtVVW33zFvcnaHeFPy&export=download&confirm=t", revision: llava-v1.5-eval-2df36a33, sha256: 2df36a33e3d3947d3e351e627449ee7cc7725d69ecc8dcbb2103d90172fbe17a, required: true}
+  - {id: llava-gqa-eval-patch, kind: http, location: "https://gist.githubusercontent.com/haotian-liu/db6eddc2a984b4cbcc8a7f26fd523187/raw/1ac7a1aab0c631845c645722082789977850ace0/1_eval.py", revision: 1ac7a1aab0c631845c645722082789977850ace0, sha256: 787ca40d8c06d09e4e4a053259f84a4ca3ca431a6fdd8d6fb3003109f013fbdf, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}\nAnswer the question using a single word or phrase."
+answer_extraction: llava_lowercase_and_rstrip_period
+scorer: gqa_llava_official_exact
+external_only: false
+verification_status: golden_verified
+notes: Public test-dev-balanced answers are scored locally. The 12,578-row materialization matches LLaVA's released prompt fixture and the official GQA v1.1 evaluator at 63.31%; all 398 referenced source images passed byte-identity and decode checks against the checksummed GQA v1.1 archive.

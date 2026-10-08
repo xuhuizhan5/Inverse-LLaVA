@@ -1,0 +1,11 @@
+id: paired-instruction-mixed-1pct
+annotation:
+  id: paired-instruction-mixed-control
+  kind: generated
+  location: generated-by-materialize-continuation-controls
+  revision: continuation-controls-v2-expanded-targets
+  required: true
+split: train
+sample_fraction: 1.0
+sample_seed: 17
+max_samples: null

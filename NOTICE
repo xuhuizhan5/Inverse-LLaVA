@@ -1,0 +1,20 @@
+Inverse-LLaVA
+Copyright 2025–2026 Inverse-LLaVA contributors.
+
+Project source code is licensed under the Apache License, Version 2.0.
+
+This research builds on LLaVA (Haotian Liu, Chunyuan Li, and contributors)
+and Vicuna/FastChat (LMSYS and contributors). LLaVA and FastChat source code
+are distributed under Apache-2.0:
+https://github.com/haotian-liu/LLaVA
+https://github.com/lm-sys/FastChat
+
+The VQA answer-normalization tables and TextVQA processing conventions derive
+from the VQA evaluator and Pythia/MMF, through LLaVA's m4c_evaluator.py.
+Copyright (c) Facebook, Inc. and its affiliates. All rights reserved.
+The retained Pythia BSD license is in third_party/licenses/Pythia-BSD.txt.
+Our implementation separates the VQA and TextVQA processing paths and uses
+dependency-free functions and explicit protocol tests.
+
+Model weights, datasets, benchmark images, fonts, and installed dependencies
+retain their own licenses. See THIRD_PARTY_NOTICES.md and assets/README.md.

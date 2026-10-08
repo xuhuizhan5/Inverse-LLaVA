@@ -1,0 +1,22 @@
+id: cuda-1gpu-inductor-fusion-optional
+accelerator: cuda
+mixed_precision: bf16
+num_processes: 1
+dataloader_workers: 8
+distributed_strategy: none
+attention_backend: sdpa
+allow_tf32: true
+deterministic_algorithms: false
+cudnn_benchmark: false
+run_root: /workspace/runs
+cache_root: /workspace/cache
+tracker: tensorboard
+hardware_telemetry_interval_seconds: 10
+keep_last_checkpoints: 2
+kernel_optimization:
+  compile_scope: fusion
+  compile_backend: inductor
+  compile_mode: default
+  dynamic_shapes: false
+  fullgraph: false
+  require_triton: true

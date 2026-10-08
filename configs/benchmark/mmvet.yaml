@@ -1,0 +1,17 @@
+id: mmvet
+display_name: MM-Vet
+split: official
+protocol_revision: mmvet-v1-llava-c121f043-gpt40613-acde843e
+task_type: judge
+annotations: {id: mmvet-v1, kind: manual, location: "mm-vet/mm-vet.json from the official v1 archive", revision: v1, sha256: 6eced3121b9865098ea72aca233ca5ff7fd7b81374494d878815b9f856442d8e, required: true}
+images: {id: mmvet-v1-archive, kind: http, location: "https://github.com/yuweihao/MM-Vet/releases/download/v1/mm-vet.zip", revision: v1, sha256: ff85408b7f382be146195b10ff5c7f995fbf297e92ea1132b61e438c8967116a, required: true}
+protocol_sources:
+  - {id: mmvet-official-evaluator, kind: http, location: "https://raw.githubusercontent.com/yuweihao/MM-Vet/acde843e02dae30047bb456ee4a8ab28dee7e0ae/mm-vet_evaluator.py", revision: acde843e02dae30047bb456ee4a8ab28dee7e0ae, sha256: 68cfd25dc1c83d9dbf695c86854749083fc3899398ef88ca2d70cea3ddd82cbf, required: true}
+conversation_template: vicuna_v1
+prompt_template: "<image>\n{question}"
+answer_extraction: none
+scorer: official_mmvet_gpt_judge
+external_only: false
+verification_status: fixture_verified
+generation: {max_new_tokens: 1024, temperature: 0.0, top_p: 1.0, num_beams: 1}
+notes: "All 218 public v1 question/reference/image bindings match the original LLaVA fixture and actual prompt-building statements; all 200 images decode. Vicuna-v1 wrapper and 1024-token ceiling. Local generation; scoring requires the pinned official GPT-4-0613 judge and a declared number of grading runs. The hosted service's current free GPT-4.1 option is a different judge protocol. Model-generation and end-to-end judge qualification remain required."
