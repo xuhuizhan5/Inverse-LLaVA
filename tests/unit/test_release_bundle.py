@@ -10,8 +10,39 @@ from invllava.model.champion_checkpoint import RELEASE_CONFIG_FILENAME, RELEASE_
 from invllava.release.bundle import (
     TRAINING_RELEASE_SOURCE_FORMAT,
     _release_model_spec,
+    _resolve_release,
+    _verify_checksums,
     seal_training_checkpoint,
 )
+
+
+def test_hub_download_preserves_checksummed_license_files(tmp_path, monkeypatch):
+    """A complete local bundle must remain complete through the Hub filter."""
+    from fnmatch import fnmatch
+
+    source = _write_parent(tmp_path)
+    for name in ("LICENSE", "LICENSE.txt", "NOTICE", "NOTICE.md", "USE_POLICY.md"):
+        (source / name).write_text("Applicable model terms.\n", encoding="utf-8")
+    _write_checksums(source)
+    revision = "a" * 40
+    snapshot = tmp_path / "snapshots" / revision
+    snapshot.mkdir(parents=True)
+
+    def download(repo_id, **kwargs):
+        assert repo_id == "author/model"
+        assert kwargs["revision"] == revision
+        assert kwargs["token"] is False
+        for path in source.iterdir():
+            if any(fnmatch(path.name, pattern) for pattern in kwargs["allow_patterns"]):
+                (snapshot / path.name).write_bytes(path.read_bytes())
+        return str(snapshot)
+
+    monkeypatch.setattr("huggingface_hub.snapshot_download", download)
+    root, resolved = _resolve_release(
+        "author/model", revision=revision, cache_root=None, local_files_only=False, token=False
+    )
+    assert resolved == revision
+    _verify_checksums(root)
 
 
 def test_release_reader_translates_only_noop_v1_projection_fields():

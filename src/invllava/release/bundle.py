@@ -238,6 +238,9 @@ def _resolve_release(
             allow_patterns=(
                 "COMPLETE",
                 "README.md",
+                "LICENSE*",
+                "NOTICE*",
+                "USE_POLICY.md",
                 "checksums.sha256",
                 "metadata.json",
                 RELEASE_CONFIG_FILENAME,
