@@ -3,6 +3,12 @@
 All plots should be traceable to saved measurements, checkpoint identities and
 sample IDs. Rendering changes do not require rerunning inference.
 
+The [research artifacts](https://huggingface.co/xuhuizhan5/Inverse-LLaVA-research-artifacts)
+include saved training histories, numerical study summaries and the matched
+100-pair representation tensors. Their metadata preserve sample order,
+feature locations, pooling and checkpoint hashes. The collection's guide
+explains selective downloading; benchmark images remain with their providers.
+
 ## Training curves
 
 `invllava plot-training-curves --help` describes the recorded-metrics interface.

@@ -4,6 +4,7 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/2508.12466">Paper</a> ·
+  <a href="https://huggingface.co/xuhuizhan5/Inverse-LLaVA-7B">Model</a> ·
   <a href="docs/training.md">Training</a> ·
   <a href="docs/evaluation.md">Evaluation</a> ·
   <a href="docs/analysis.md">Analysis</a> ·
@@ -41,7 +42,7 @@ YAML configurations, with explicit recipes for component and scaling studies.
 
 ## Results
 
-Complete evaluations compare the retrained Inverse-LLaVA checkpoint with
+Complete evaluations compare the released Inverse-LLaVA checkpoint with
 official LLaVA-1.5 LoRA and full-fine-tuning (FFT) checkpoints. These are shared
 evaluation protocols, not training-matched comparisons.
 
@@ -69,6 +70,8 @@ implying the same reduction in training time or FLOPs.
 Use Linux with a CUDA-compatible PyTorch installation for model execution.
 
 ```bash
+git clone https://github.com/xuhuizhan5/Inverse-LLaVA.git
+cd Inverse-LLaVA
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e ".[dev,analysis,tracking]"
@@ -80,6 +83,33 @@ The [container](containers/README.md) and [pinned requirements](requirements/REA
 provide the verified x86/CUDA environment. TensorBoard and local JSONL metrics
 work without an online account. Optional W&B logging uses the same saved metrics;
 checkpoints remain ordinary files on your storage.
+
+## Pretrained model
+
+The [full-data Inverse-LLaVA-7B checkpoint](https://huggingface.co/xuhuizhan5/Inverse-LLaVA-7B)
+contains the learned fusion and LoRA weights. The loader retrieves the pinned
+Vicuna and CLIP backbones separately and verifies the bundle's checksums.
+
+```python
+from invllava.release import load_pretrained
+
+model = load_pretrained(
+    "xuhuizhan5/Inverse-LLaVA-7B",
+    revision="d2ec3d3b27b61ccc08ea1677ad63132f1400307c",
+    cache_dir="/workspace/cache",
+    max_new_tokens=128,
+)
+print(model.answer("/path/to/image.jpg", "What is shown in this image?"))
+```
+
+The first load needs storage for both backbones, beyond the 695 MB delta.
+[Checkpoint and offline-use instructions](docs/checkpoints.md) explain the
+format, model terms and verification steps.
+
+[Research artifacts](https://huggingface.co/xuhuizhan5/Inverse-LLaVA-research-artifacts)
+provide experimental checkpoints, saved answers, training records and
+representation tensors. HD and 13B entries are explicitly labeled 5%-data
+studies. Download individual folders rather than the entire collection.
 
 ## Reproduce and extend
 

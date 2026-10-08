@@ -1,5 +1,28 @@
 # Evaluation
 
+## Rescore the released answers
+
+The [research artifact collection](https://huggingface.co/xuhuizhan5/Inverse-LLaVA-research-artifacts)
+contains generated answers and score records for the published comparisons.
+Its `evaluations/index.json` identifies each checkpoint, metric and protocol.
+Download only the benchmark folders you need and prepare the official examples
+as described below. Then, for example:
+
+```bash
+python scripts/rescore_published_answers.py configs/benchmark/textvqa.yaml \
+  --answers /path/to/evaluations/textvqa/inverse-llava/answers.jsonl \
+  --examples /workspace/data/textvqa/examples.jsonl \
+  --output /workspace/reports/textvqa-rescored.json
+```
+
+This verifies complete sample coverage and every prompt hash before applying
+the pinned scorer. The export retains original inference identifiers separately
+from the current scoring identifiers. All 33 local comparison cells were
+rescored from these exports and matched the recorded scores. VQAv2 test-dev
+and hosted MM-Vet retain their external results; this script does not replace
+their official scoring procedures. Dataset images, questions and annotations
+must come from the official sources.
+
 The [evaluation guide](guides/EVALUATION.md) contains data materialization,
 prediction and scoring commands. The [protocol registry](benchmarks/INDEX.md)
 identifies the frozen datasets, evaluators and validation checks.

@@ -1,5 +1,39 @@
 # Checkpoints
 
+## Published artifacts
+
+The [Inverse-LLaVA-7B model](https://huggingface.co/xuhuizhan5/Inverse-LLaVA-7B)
+is the full-data checkpoint used in the main comparison. Its immutable initial
+Hub revision is `d2ec3d3b27b61ccc08ea1677ad63132f1400307c`, and its weight SHA-256 is
+`9ed8914aedbbeb55d01607da0aab96af2d55f638e0b827f20ac232d0a4f6741f`.
+
+The separate [research collection](https://huggingface.co/xuhuizhan5/Inverse-LLaVA-research-artifacts)
+contains experimental checkpoints and their catalog. HD and 13B are 5%-data
+models, not full-data replacements for the 7B model. Use selective downloads:
+
+```python
+from pathlib import Path
+from huggingface_hub import snapshot_download
+from invllava.release import load_pretrained
+
+subdir = "checkpoints/hd-5pct/step-0000260"
+root = Path(snapshot_download(
+    "xuhuizhan5/Inverse-LLaVA-research-artifacts",
+    revision="5dc9cd4b6e46d31c49e0218c8cfb2be458143bbd",
+    allow_patterns=[f"{subdir}/*", "catalog.json", "LICENSE.txt", "NOTICE", "USE_POLICY.md"],
+    cache_dir="/workspace/hub-cache",
+))
+model = load_pretrained(root / subdir, cache_dir="/workspace/cache")
+```
+
+The example pins the verified research snapshot. Its catalog distinguishes
+sealed inverse models from native projector-control
+checkpoints and provides the appropriate loading instructions. These artifacts
+support inference and new fine-tuning; they omit the optimizer state needed for
+exact training resume.
+
+## Bundle format
+
 Training checkpoints contain trainable safetensors deltas plus the state needed
 to resume. Exporting produces five runtime files; add a model card and the
 applicable model license and notices before publication:
